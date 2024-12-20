@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
+import { ClerkProvider } from '@clerk/nextjs'
+import Navbar from "@/ui/navbar";
+import { dark } from '@clerk/themes'
+
 
 export const metadata: Metadata = {
   title: "Convoes 2",
@@ -18,9 +22,30 @@ export default function RootLayout({
       <body
         className={`bg-blue-600 antialiased`}
       >
-        {children}
-        <Analytics />
-        <SpeedInsights/>
+        <ClerkProvider appearance={{
+            baseTheme: dark,
+            elements: {
+              signIn: 'bg-slate-500 text-white',
+            },
+            variables: {
+              
+            },    
+          }}>
+            <Navbar />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <main>
+            {children}
+          </main>
+          <Analytics />
+          <SpeedInsights/>
+        </ClerkProvider>
       </body>
     </html>
   );
