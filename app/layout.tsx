@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { ClerkProvider } from '@clerk/nextjs'
 import Navbar from "@/ui/navbar";
 import { dark } from '@clerk/themes'
-
+import VersionName from '@/ui/version-name'
 
 export const metadata: Metadata = {
   title: "Convoes 2",
@@ -18,9 +18,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`bg-blue-700 antialiased`}
+    <html lang="en" className="h-full">
+      <body 
+        className={`bg-blue-700 m-5 h-full flex flex-col antialiased`}
       >
         <ClerkProvider appearance={{
           baseTheme: dark,
@@ -34,9 +34,20 @@ export default function RootLayout({
           <Navbar />
           <br />
           <br />
-          <main>
-            {children}
-          </main>
+          <div className="flex-grow flex flex-col">
+          <div className="flex-grow">
+            <main>
+             {children}
+            </main>
+          </div>
+          <br />
+          <br />
+          <div className="flex-grow-0 flex items-center justify-center">
+            <footer className="relative bottom-0 w-full rounded-xl flex flex-row justify-between items-center">
+              <VersionName />
+            </footer>
+          </div>
+        </div>
           <Analytics />
           <SpeedInsights />
         </ClerkProvider>

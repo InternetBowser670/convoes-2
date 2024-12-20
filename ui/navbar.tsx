@@ -32,7 +32,7 @@ export default function Navbar() {
                     <div className="bg-blue-700 fixed z-10 justify-center border-solid rounded-2xl min-w-500 flex content-center h-9 m-5 p-5 border-white border-2">
                         <div className="relative bottom-4 flex flex-row w-15 h-8">
                             <div className="flex justify-center">
-                                <a className="h-8 w-8 overflow-hidden" href="https://internetbowser.com">
+                                <a title='Main site' className="h-8 w-8 overflow-hidden" href="https://internetbowser.com">
                                     <Pfp size="2rem" />
                                 </a>
                             </div>
