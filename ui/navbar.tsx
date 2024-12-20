@@ -28,7 +28,7 @@ export default function Navbar() {
             
                 <div className={jetbrains_800weight.className +
                         " " + "flex sm:flex w-full justify-center mb-5 overflow-hidden"}>
-                    <div className="bg-blue-600 fixed z-10 justify-center border-solid rounded-2xl min-w-500 flex content-center h-9 m-5 p-5 border-red-500 border-2">
+                    <div className="bg-blue-600 fixed z-10 justify-center border-solid rounded-2xl min-w-500 flex content-center h-9 m-5 p-5 border-red-600 border-2">
                         <div className="relative bottom-4 flex flex-row w-15 h-8">
                             <div className="flex justify-center">
                                 <Link className="h-8 w-8 overflow-hidden" href="/">
@@ -50,7 +50,7 @@ export default function Navbar() {
                                                         " " +
                                                         "p-1 relative rounded-2xl",
                                                     {
-                                                        "animate-rainbowText-fast text-red-500":
+                                                        "animate-rainbowText-fast text-red-600":
                                                             pathname === link.href,
                                                     },
                                                 )}

@@ -16,3 +16,129 @@ body {
 .makeImageCircular {
   border-radius:50%;
 }
+
+@keyframes bgGradient {
+  0% {
+    transform: translate(100%, -100%);
+  }
+  50% {
+    transform: translate(100%, 0%);
+  }
+
+  100% {
+    transform: translate(100%, 100%);
+  }
+}
+
+.mainBackground{
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -100;
+  width: 100vw;
+  height: 100vh;
+  transform: rotate(45deg);
+}
+
+#bgLine-1 {
+  animation-delay: 250ms;
+}
+
+#bgLine-2 {
+  animation-delay: 500ms;
+}
+
+#bgLine-3 {
+  animation-delay: 600ms;
+}
+
+#bgLine-4 {
+  animation-delay: 400ms;
+}
+
+#bgLine-5 {
+  animation-delay: 350ms;
+}
+
+#bgLine-6after {
+  animation-delay: 200ms;
+}
+
+#bgLine-7 {
+  animation-delay: 400ms;
+}
+
+#bgLine-8 {
+  animation-delay: 200ms;
+}
+
+#bgLine-9 {
+  animation-delay: 500ms;
+}
+
+#bgLine-10 {
+  animation-delay: 300ms;
+}
+
+#bgLine-11 {
+  animation-delay: 600ms;
+}
+
+#bgLine-12 {
+  animation-delay: 00ms;
+}
+
+#bgLine-13 {
+  animation-delay: 200ms;
+}
+
+#bgLine-14 {
+  animation-delay: 450ms;
+}
+
+#bgLine-15 {
+  animation-delay: 700ms;
+}
+
+#bgLine-16 {
+  animation-delay: 100ms;
+}
+
+#bgLine-17 {
+  animation-delay: 400ms;
+}
+
+.bg-line {
+  position: relative;
+  width: calc(100% / 3);
+  height: 100%;
+  border: 1px transparent white;
+  z-index: -101;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bgCircle {
+  background-color: blue;
+  height: 100px;
+  width: 100px;
+  color: white;
+  border-radius: 100%;
+}
+
+.bg-line {
+  width: 100px;
+  height: 100px;
+  height: 100%;
+  z-index: -102;
+  padding: 3px;
+  margin: 5px;
+  animation: bgGradient 1s linear infinite;
+  transform: translate(200%, 200%);
+  animation-delay: 250ms;
+  background-size: 200%;
+  background-position: 0% 50%;
+}

@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col justify-center">
-        <div className="p-[200px] border-white border-2 border-solid rounded-[100px]">
+        <div className="px-[15vw] py-[15vh] border-white border-2 bg-blue-600 border-solid rounded-[100px]">
           <h1 className={"text-5xl" + " " + jetbrains_800weight.className}>
             Convoes 2 - Coming Soon!
           </h1>
