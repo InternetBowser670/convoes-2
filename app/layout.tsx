@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-blue-600 antialiased`}
+        className={`bg-blue-700 antialiased`}
       >
         <ClerkProvider appearance={{
           baseTheme: dark,
@@ -34,12 +34,6 @@ export default function RootLayout({
           <Navbar />
           <br />
           <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
           <main>
             {children}
           </main>
@@ -51,8 +45,14 @@ export default function RootLayout({
             <div className="bgCircle">
 
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-2' className="bg-line">
+            <div className="bgCircle">
+
+            </div>
             <div className="bgCircle">
 
             </div>
@@ -61,8 +61,14 @@ export default function RootLayout({
             <div className="bgCircle">
               
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-4' className="bg-line">
+            <div className="bgCircle">
+
+            </div>
             <div className="bgCircle">
 
             </div>
@@ -71,8 +77,14 @@ export default function RootLayout({
             <div className="bgCircle">
 
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-6' className="bg-line">
+            <div className="bgCircle">
+
+            </div>
             <div className="bgCircle">
 
             </div>
@@ -81,8 +93,14 @@ export default function RootLayout({
             <div className="bgCircle">
 
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-8' className="bg-line">
+            <div className="bgCircle">
+
+            </div>
             <div className="bgCircle">
 
             </div>
@@ -91,8 +109,14 @@ export default function RootLayout({
             <div className="bgCircle">
 
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-10' className="bg-line">
+            <div className="bgCircle">
+
+            </div>
             <div className="bgCircle">
 
             </div>
@@ -101,8 +125,14 @@ export default function RootLayout({
             <div className="bgCircle">
 
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-12' className="bg-line">
+            <div className="bgCircle">
+
+            </div>
             <div className="bgCircle">
 
             </div>
@@ -111,8 +141,14 @@ export default function RootLayout({
             <div className="bgCircle">
 
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-14' className="bg-line">
+            <div className="bgCircle">
+
+            </div>
             <div className="bgCircle">
 
             </div>
@@ -121,13 +157,22 @@ export default function RootLayout({
             <div className="bgCircle">
 
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-16' className="bg-line">
             <div className="bgCircle">
 
             </div>
+            <div className="bgCircle">
+
+            </div>
           </div>
           <div id='bgLine-17' className="bg-line">
+            <div className="bgCircle">
+
+            </div>
             <div className="bgCircle">
 
             </div>

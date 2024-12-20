@@ -19,14 +19,14 @@ body {
 
 @keyframes bgGradient {
   0% {
-    transform: translate(100%, -100%);
+    transform: translate(100%, -150%);
   }
   50% {
     transform: translate(100%, 0%);
   }
 
   100% {
-    transform: translate(100%, 100%);
+    transform: translate(100%, 150%);
   }
 }
 
@@ -36,8 +36,8 @@ body {
   top: 0;
   left: 0;
   z-index: -100;
-  width: 100vw;
-  height: 100vh;
+  width: 200vw;
+  height: 200vh;
   transform: rotate(45deg);
 }
 
@@ -58,11 +58,11 @@ body {
 }
 
 #bgLine-5 {
-  animation-delay: 350ms;
+  animation-delay: 850ms;
 }
 
 #bgLine-6after {
-  animation-delay: 200ms;
+  animation-delay: 700ms;
 }
 
 #bgLine-7 {
@@ -70,7 +70,7 @@ body {
 }
 
 #bgLine-8 {
-  animation-delay: 200ms;
+  animation-delay: 800ms;
 }
 
 #bgLine-9 {
@@ -78,7 +78,7 @@ body {
 }
 
 #bgLine-10 {
-  animation-delay: 300ms;
+  animation-delay: 750ms;
 }
 
 #bgLine-11 {
@@ -86,7 +86,7 @@ body {
 }
 
 #bgLine-12 {
-  animation-delay: 00ms;
+  animation-delay: 900ms;
 }
 
 #bgLine-13 {
@@ -109,20 +109,9 @@ body {
   animation-delay: 400ms;
 }
 
-.bg-line {
-  position: relative;
-  width: calc(100% / 3);
-  height: 100%;
-  border: 1px transparent white;
-  z-index: -101;
-  padding: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .bgCircle {
-  background-color: blue;
+  background-color: rgb(255, 255, 255);
   height: 100px;
   width: 100px;
   color: white;
@@ -136,9 +125,13 @@ body {
   z-index: -102;
   padding: 3px;
   margin: 5px;
-  animation: bgGradient 1s linear infinite;
+  animation: bgGradient 2s linear infinite;
   transform: translate(200%, 200%);
   animation-delay: 250ms;
-  background-size: 200%;
+  background-size: 300%;
   background-position: 0% 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
