@@ -7,7 +7,7 @@ const jetbrains_400weight = JetBrains_Mono({
     subsets: ["latin"],
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://internetbowser.com"
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2.internetbowser.com"
 
 async function fetchUsers() {
     const response = await fetch(`${baseUrl}/api/users`);
