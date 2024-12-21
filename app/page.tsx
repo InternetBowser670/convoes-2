@@ -25,6 +25,10 @@ export default function Home() {
             <p className={"text-2xl max-w-60%" + " " + jetbrains_800weight.className}>
               Create an account and visit <a className="underline" href="https://www.internetbowser.com">my website</a> until this service becomes available
             </p>
+            <br />
+            <p className={"text-2xl max-w-60%" + " " + jetbrains_800weight.className}>
+              Look at all user accounts <a className="underline" href="https://convoes-2.internetbowser.com/allusers">here</a>
+            </p>
             <br/ >
             <LatestChangeElement />
           </div>

@@ -18,6 +18,7 @@ import Pfp from "./homepage/pfp";
 export default function Navbar() {
     const links = [
         { name: "Home", href: "/" },
+        { name: "Users", href: "/allusers" },
         { name: "Changelog", href: "/changelog"},
         { name: "Donate", href: "https://pay.internetbowser.com" },
     ];

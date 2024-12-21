@@ -34,9 +34,20 @@ export default function Page() {
         <ul className={`${jetbrains_400weight.className}`}>
             {allUsers.map(user => (
                 <li key={user.id}>
-                    <p>Name: {user.first_name}</p>
-                    <p>Username: {user.username}</p>
-                    <br />
+                    <div className='bg-blue-700 border-white border-2 rounded-2xl w-[500] p-3 shrink'>
+                        <div className='flex items-center content-center'>
+                            <img src={user.image_url} className='rounded-full pfp' alt={`${user.username}'s pfp`}>
+                            </img>
+                            <p>​    @{user.username}</p>
+                        </div>
+                        {
+                            user.first_name ?  <p>Name: {user.first_name} {user.last_name}</p>
+                            : <p>Name: (N/A)</p>
+                        }
+                       
+                        
+                        <br />
+                    </div>
                 </li>
             ))}
         </ul>
