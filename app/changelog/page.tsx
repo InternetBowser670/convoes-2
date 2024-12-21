@@ -14,6 +14,8 @@ const jetbrains_800weight = JetBrains_Mono({
 export default function Page() {
     return (
         <>
+            <br />
+            <br />
             <main>
                 <div className="flex flex-col content-center justify-center">
                     <div className="flex justify-center items-center">
