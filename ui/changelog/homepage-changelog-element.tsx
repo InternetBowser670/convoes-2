@@ -24,7 +24,7 @@ export default function HomepageChangelogEl(props: Version) {
 
   return (
     <>
-      <div className="justify-self-center self-center bg-black border-2 p-5 rounded-2xl flex flex-col justify-center content-center border-blue-500 border-solid m-2">
+      <div className="justify-self-center self-center bg-blue-700 border-2 w-1/2 p-5 rounded-2xl flex flex-col justify-center content-center border-white border-solid m-2">
         <div className="flex flex-col justify-center">
           <div className="flex flex-row justify-between">
             <div className="flex flex-row">
