@@ -51,7 +51,7 @@ export default function Navbar() {
                                                         " " +
                                                         "p-1 relative rounded-2xl",
                                                     {
-                                                        "animate-rainbowText-fast text-red-600":
+                                                        "text-red-600":
                                                             pathname === link.href,
                                                     },
                                                 )}
