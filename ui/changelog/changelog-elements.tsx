@@ -2,12 +2,17 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
-  "0.3.0": {
-    "0.4.0": {
+  "0.5.0": {
+    "date": "12/21/24",
+    "changes": "Made users update automatically on reload, fixed profile pictures and made myself always be the first one in the list",
+    "type": "convoes"
+  },
+  "0.4.0": {
     "date": "12/21/24",
     "changes": "Added a fallback profile picture",
     "type": "convoes"
   },
+  "0.3.0": {
     "date": "12/21/24",
     "changes": "Improved the all users page",
     "type": "convoes"

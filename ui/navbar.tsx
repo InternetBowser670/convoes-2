@@ -52,7 +52,7 @@ export default function Navbar() {
                                                         " " +
                                                         "p-1 relative rounded-2xl",
                                                     {
-                                                        "text-red-600":
+                                                        "text-[#fffc36]":
                                                             pathname === link.href,
                                                     },
                                                 )}
