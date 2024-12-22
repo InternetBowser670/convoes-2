@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 
 
 let baseUrl: string;
-const useProdUrl = true
+const useProdUrl = false
 if (useProdUrl) {
     baseUrl = "https://convoes-2.internetbowser.com"
 } else {
