@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.8.0": {
+    "date": "12/22/24",
+    "changes": "Changed the navbar to use icons rather than text",
+    "type": "convoes"
+  },
   "0.7.0": {
     "date": "12/22/24",
     "changes": "Added a settings page",
