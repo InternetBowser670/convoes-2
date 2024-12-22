@@ -9,13 +9,15 @@ const jetbrains_400weight = JetBrains_Mono({
     subsets: ["latin"],
 });
 
+export const dynamic = 'force-dynamic';
+
 
 let baseUrl: string;
 const useProdUrl = true
 if (useProdUrl) {
-    baseUrl = "https://convoes-2/internetbowser.com"
+    baseUrl = "https://convoes-2.internetbowser.com"
 } else {
-    baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2/internetbowser.com"
+    baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2.internetbowser.com"
 }
 
 
