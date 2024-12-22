@@ -1,6 +1,8 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const uri = process.env.MONGODB_URI || "lol ggs";
   const client = new MongoClient(uri, {

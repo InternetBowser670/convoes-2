@@ -9,7 +9,15 @@ const jetbrains_400weight = JetBrains_Mono({
     subsets: ["latin"],
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2/internetbowser.com"
+
+let baseUrl: string;
+const useProdUrl = true
+if (useProdUrl) {
+    baseUrl = "https://convoes-2/internetbowser.com"
+} else {
+    baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2/internetbowser.com"
+}
+
 
 export default function Page() {
     const [data, setData] = useState([]);
