@@ -1,5 +1,4 @@
 import { clerkMiddleware } from '@clerk/nextjs/server'
-import { NextRequest, NextResponse } from "next/server";
 
 export default clerkMiddleware()
 
@@ -12,16 +11,3 @@ export const config = {
   ],
 }
 
-export function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-
-  res.headers.set("Access-Control-Allow-Origin", "*");
-  res.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  if (req.method === "OPTIONS") {
-    return new Response(null, { status: 200 });
-  }
-
-  return res;
-}

@@ -193,7 +193,7 @@ body {
   z-index: -102;
   padding: 3px;
   margin: 5px;
-  animation: bgGradient 2s linear infinite;
+  animation: bgGradient 3s linear infinite;
   transform: translate(200%, 200%);
   animation-delay: 250ms;
   background-size: 300%;

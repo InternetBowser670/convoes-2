@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.9.1": {
+    "date": "12/22/24",
+    "changes": "Made the background move slightly faster",
+    "type": "convoes"
+  },
   "0.9.0": {
     "date": "12/22/24",
     "changes": "Made the settings page display some text if you are not signed in and added webhook functionality",
