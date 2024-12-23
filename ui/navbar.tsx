@@ -54,7 +54,7 @@ export default function Navbar() {
                                                 "p-1 relative rounded-2xl",
                                                 {
                                                     "text-[#fffc36]":
-                                                        pathname === link.href,
+                                                        (pathname.includes(link.href) && link.href !== "/") || pathname === link.href
                                                 },
                                             )}
 
