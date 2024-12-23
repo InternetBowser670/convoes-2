@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 
 
 let baseUrl: string;
-const useProdUrl = true
+const useProdUrl = false
 if (useProdUrl) {
     baseUrl = "https://convoes-2.internetbowser.com"
 } else {
@@ -49,7 +49,7 @@ export default function Page() {
             ) : (
                 <div className={`grid grid-cols-3`}>
                     {data.map((user: User) => (
-                        <div key={user._id} className="bg-blue-700 border-white border-2 rounded-2xl w-[500] m-3 p-3 shrink">
+                        <div key={user._id} className="bg-blue-700 border-white border-2 rounded-2xl w-[1/4] m-3 p-3 shrink">
                             <div className="flex items-center content-center">
                                 <img
                                     src={
@@ -64,10 +64,10 @@ export default function Page() {
                             <br />
                             {user.first_name ? (
                                 <p>
-                                    Name: {user.first_name} {user.last_name}
+                                    {user.desc}
                                 </p>
                             ) : (
-                                <p>Name: (N/A)</p>
+                                <p>Desc: (N/A)</p>
                             )}
                             <br />
                         </div>
@@ -92,7 +92,7 @@ function UsersFallback() {
 }
 
 function TemplateUser() {
-    return (<div className="bg-blue-700 border-white border-2 skeleton rounded-2xl w-[500] m-3 p-3 shrink">
+    return (<div className="bg-blue-700 border-white border-2 skeleton rounded-2xl w-[1/4] m-3 p-3 shrink">
         <div className="flex items-center content-center">
             <div className="rounded-full skeleton-avatar bg-red-500 pfp">
                 <div className="glimmer-line"></div>

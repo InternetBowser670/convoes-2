@@ -33,6 +33,7 @@ export async function GET() {
         first_name: user.first_name,
         last_name: user.last_name,
         image_url: user.image_url,
+        desc: user.desc,
     }));
 
   return NextResponse.json(serializedUsers);
