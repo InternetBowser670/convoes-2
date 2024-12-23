@@ -15,9 +15,9 @@ export const dynamic = 'force-dynamic';
 let baseUrl: string;
 const useProdUrl = false
 if (useProdUrl) {
-    baseUrl = "https://convoes-2.internetbowser.com"
+    baseUrl = "https://internetbowser.com"
 } else {
-    baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2.internetbowser.com"
+    baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://internetbowser.com"
 }
 
 
