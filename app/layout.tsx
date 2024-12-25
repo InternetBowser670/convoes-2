@@ -36,7 +36,7 @@ export default function RootLayout({
           <br />
           <div className="flex-grow flex flex-col">
           <div className="flex-grow">
-            <main>
+            <main className="h-full">
              {children}
             </main>
           </div>

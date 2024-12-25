@@ -15,26 +15,27 @@ export async function GET() {
   });
 
   await client.connect();
-  const useProdDB = true;
+  const useProdDB = false;
 
-    await client.connect();
-    let db;
-    if (useProdDB) {
-        db = client.db("InternetBowser-Prod");
-    } else {
-        db = client.db(process.env.MONGODB_DB_NAME);
-    }
-    const users = db.collection("users");
-    const allUsers = await users.find({}).sort({ priority: -1 }).toArray();
+  await client.connect();
 
-    const serializedUsers = allUsers.map(user => ({
-        _id: user._id.toString(),
-        username: user.username,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        image_url: user.image_url,
-        desc: user.desc,
-    }));
+  let db;
+  if (useProdDB) {
+    db = client.db("InternetBowser-Prod");
+  } else {
+    db = client.db(process.env.MONGODB_DB_NAME);
+  }
+  const users = db.collection("users");
+  const allUsers = await users.find({}).sort({ priority: -1 }).toArray();
+
+  const serializedUsers = allUsers.map(user => ({
+    _id: user._id.toString(),
+    username: user.username,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    image_url: user.image_url,
+    desc: user.desc,
+  }));
 
   return NextResponse.json(serializedUsers);
 }
