@@ -25,7 +25,7 @@ export default function DescEdit() {
                 desc: desc
             })
         })
-        alert(`Updated at ${baseUrl}/api/settings/desc`)
+        alert(`Updated description`)
     }
 
     return (<form onSubmit={descSubmit}>

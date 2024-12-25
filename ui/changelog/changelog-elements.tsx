@@ -4,6 +4,11 @@ import HomepageChangelogEl from './homepage-changelog-element'
 const versions = {
   "0.11.1": {
     "date": "12/25/24",
+    "changes": "Fixed alert text and a bug in compilation",
+    "type": "convoes"
+  },
+  "0.11.0": {
+    "date": "12/25/24",
     "changes": "Added the ability to change your description",
     "type": "convoes"
   },

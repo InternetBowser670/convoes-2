@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const desc = body.desc
 
     if (!user) {
-        return "No user found"
+        return new NextResponse("No User Found")
     }
 
     console.log(user.id)
