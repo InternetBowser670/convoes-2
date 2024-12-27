@@ -24,3 +24,8 @@ export interface Project {
     prjUrl?: string;
 }
 
+export interface SeeMoreProps {
+    text: string;
+    maxLength: number;
+    className: string;
+}

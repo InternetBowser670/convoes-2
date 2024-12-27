@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { User } from "@/src/lib/types";
 import { JetBrains_Mono } from "next/font/google";
+import TextWithSeeMore from '@/ui/text-with-see-more';
 
 const jetbrains_400weight = JetBrains_Mono({
     weight: "400",
@@ -49,7 +50,7 @@ export default function Page() {
             ) : (
                 <div className={`grid grid-cols-3`}>
                     {data.map((user: User) => (
-                        <div key={user._id} className="bg-blue-700 border-white border-2 rounded-2xl w-[1/4] m-3 p-3 shrink">
+                        <div key={user._id} className="bg-blue-700 border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink">
                             <div className="flex items-center content-center">
                                 <img
                                     src={
@@ -62,14 +63,14 @@ export default function Page() {
                                 <p>​ @{user.username}</p>
                             </div>
                             <br />
-                            {user.first_name ? (
-                                <p>
-                                    {user.desc}
-                                </p>
+                            {user.desc ? (
+                                <TextWithSeeMore text={user.desc} maxLength={50} className='text-ellipsis overflow-hidden seeMoreText'/>
                             ) : (
-                                <p>Desc: (N/A)</p>
+                                <>
+                                    <p>Desc: (N/A)</p>
+                                    <br />
+                                </>
                             )}
-                            <br />
                         </div>
                     ))}
                 </div>

@@ -30,7 +30,7 @@ export default function DescEdit() {
 
     return (<form onSubmit={descSubmit}>
         <input placeholder={`New Description`} className="rounded-xl p-1 focus:outline-none text-black text-sm" type="text" value={desc}
-            onChange={(e) => setDesc(e.target.value)}></input>
+            onChange={(e) => setDesc(e.target.value)} ></input>
         <input type="submit" value="Update" className="border-white ml-2 hover:text-blue-700 hover:bg-white rounded-2xl text-sm border-2 p-1"></input>
     </form>)
 }
