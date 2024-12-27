@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.12.1": {
+    "date": "12/27/24",
+    "changes": "Adjusted the strength of the \"See More\" button",
+    "type": "convoes"
+  },
   "0.12.0": {
     "date": "12/26/24",
     "changes": "Added a \"See More\" button to the descriptions",

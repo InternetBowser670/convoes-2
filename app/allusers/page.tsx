@@ -64,7 +64,7 @@ export default function Page() {
                             </div>
                             <br />
                             {user.desc ? (
-                                <TextWithSeeMore text={user.desc} maxLength={50} className='text-ellipsis overflow-hidden seeMoreText'/>
+                                <TextWithSeeMore text={user.desc} maxLength={45} className='text-ellipsis overflow-hidden seeMoreText'/>
                             ) : (
                                 <>
                                     <p>Desc: (N/A)</p>
