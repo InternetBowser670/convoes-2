@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
         return new NextResponse({ message: 'Unauthorized' }, { status: 401 })
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const chats = await db.collection("chats");
 
     const body = await new Response(req.body).json();
