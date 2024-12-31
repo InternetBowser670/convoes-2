@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     const user = await currentUser()
 
     if (!user) {
-        return new NextResponse({ status: 401 })
+        return new NextResponse()
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
