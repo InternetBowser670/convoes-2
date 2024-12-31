@@ -1,6 +1,6 @@
 "use client";
 
-import { HomeIcon, UsersIcon, ArchiveBoxIcon, CurrencyDollarIcon, Cog6ToothIcon } from '@heroicons/react/24/solid'
+import { HomeIcon, UsersIcon, ArchiveBoxIcon, CurrencyDollarIcon, Cog6ToothIcon, MapIcon } from '@heroicons/react/24/solid'
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import React from "react";
 import { JetBrains_Mono } from "next/font/google";
@@ -21,6 +21,7 @@ export default function Navbar() {
         { name: "Users", href: "/allusers", icon: UsersIcon },
         { name: "Changelog", href: "/changelog", icon: ArchiveBoxIcon },
         { name: "Donate", href: "https://pay.internetbowser.com", icon: CurrencyDollarIcon },
+        { name: "Roadmap", href: "/roadmap", icon: MapIcon},
         { name: "Settings", href: "/settings", icon: Cog6ToothIcon },
     ];
 
