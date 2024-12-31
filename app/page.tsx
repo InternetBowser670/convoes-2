@@ -17,7 +17,7 @@ export default function Home() {
       <br />
       <div className="flex items-center justify-center p-10 relative bottom-[100px] ">
         <main className="flex flex-col justify-center">
-          <div className="p-10 border-white border-2 bg-blue-700 border-solid rounded-[100px]">
+          <div className="p-10 border-white border-2 backdrop-filter backdrop-blur-md border-solid rounded-[100px]">
             <h1 className={"text-5xl" + " " + jetbrains_800weight.className}>
               Convoes 2 - Coming January 2025!
             </h1>
@@ -29,7 +29,7 @@ export default function Home() {
             <p className={"text-2xl max-w-60%" + " " + jetbrains_800weight.className}>
               Look at all user accounts <a className="underline" href="https://convoes-2.internetbowser.com/allusers">here</a>
             </p>
-            <br/ >
+            <br />
             <LatestChangeElement />
           </div>
         </main>

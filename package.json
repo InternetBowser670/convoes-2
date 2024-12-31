@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@2toad/profanity": "^3.1.1",
     "@clerk/clerk-sdk-node": "^5.1.4",
     "@clerk/elements": "^0.22.4",
     "@clerk/nextjs": "^6.9.6",

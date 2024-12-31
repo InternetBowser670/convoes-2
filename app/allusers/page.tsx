@@ -50,7 +50,7 @@ export default function Page() {
             ) : (
                 <div className={`grid grid-cols-3`}>
                     {data.map((user: User) => (
-                        <div key={user._id} className="bg-blue-700 border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink">
+                        <div key={user._id} className="backdrop-filter backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink">
                             <div className="flex items-center content-center">
                                 <img
                                     src={
@@ -93,7 +93,7 @@ function UsersFallback() {
 }
 
 function TemplateUser() {
-    return (<div className="bg-blue-700 border-white border-2 skeleton rounded-2xl w-[1/4] m-3 p-3 shrink">
+    return (<div className="backdrop-filter backdrop-blur-md border-white border-2 skeleton rounded-2xl w-[1/4] m-3 p-3 shrink">
         <div className="flex items-center content-center">
             <div className="rounded-full skeleton-avatar bg-red-500 pfp">
                 <div className="glimmer-line"></div>

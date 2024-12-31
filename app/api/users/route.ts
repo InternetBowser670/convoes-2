@@ -15,7 +15,7 @@ export async function GET() {
   });
 
   await client.connect();
-  const useProdDB = false;
+  const useProdDB = true;
 
   await client.connect();
 

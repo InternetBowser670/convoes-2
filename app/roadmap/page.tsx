@@ -9,7 +9,7 @@ const jetbrains_400weight = JetBrains_Mono({
 export default function Page() {
     return (<>
         <div className={`h-full flex flex-col text-5xl items-center content-center font-bold ${jetbrains_400weight.className}`}>
-            <div className="bg-blue-700 border-white rounded-2xl w-[20%] flex justify-center flex-col border-2 p-5">
+            <div className="backdrop-filter backdrop-blur-md border-white rounded-2xl w-[30%] flex justify-center flex-col border-2 p-5">
                 <h1>
                     Roadmap
                 </h1>

@@ -15,7 +15,7 @@ export default async function Page() {
 
     return(<>
         <div className={`w-full h-full flex justify-center items-center flex-col content-center ${jetbrains_400weight.className}`}>
-            <div className="bg-blue-700 border-white rounded-3xl border-2 w-[70%] h-[80%] p-5">
+            <div className="backdrop-filter backdrop-blur-md border-white rounded-3xl border-2 w-[70%] h-[80%] p-5">
                 <p className="text-3xl">
                     Profile Settings
                 </p>

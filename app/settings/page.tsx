@@ -11,7 +11,7 @@ export default function Page() {
     return (
         <>
             <div className={`h-full w-full flex justify-center content-center items-center ${jetbrains_400weight.className}`}>
-                <div className="bg-blue-700 w-[70%] border-white border-2 rounded-3xl p-3 flex flex-col justify-center items-center content-center">
+                <div className="backdrop-filter backdrop-blur-md w-[70%] border-white border-2 rounded-3xl p-3 flex flex-col justify-center items-center content-center">
                     <HandRaisedIcon height="150" color="#fff200" />
                     <br />
                     <h1 className="text-7xl"> STOP </h1>
@@ -19,7 +19,7 @@ export default function Page() {
                     <br />
                     <h1 className="text-3xl"> Are you trying to edit one of these attributes: </h1>
                     <br />
-                    <div className="bg-blue-700 w-[70%] border-white border-2 rounded-xl p-3 flex flex-col justify-center items-center content-center">
+                    <div className="backdrop-filter backdrop-blur-md w-[70%] border-white border-2 rounded-xl p-3 flex flex-col justify-center items-center content-center">
                         <ul className="text-xl">
                             <li>
                                 Username
