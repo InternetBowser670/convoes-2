@@ -46,7 +46,7 @@ export default function Page() {
             return;
         }
 
-        if (!chatPassword) {
+        if (!chatPassword && privacyOption == 'private') {
             alert("Please enter a chat password");
             return;
         }

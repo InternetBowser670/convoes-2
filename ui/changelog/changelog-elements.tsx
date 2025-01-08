@@ -2,9 +2,14 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.15.1": {
+    "date": "1/7/24",
+    "changes": "Patched a small problem with creating convoes",
+    "type": "convoes"
+  },
   "0.15.0": {
     "date": "1/7/24",
-    "changes": "Added the ability to vreate convoes.",
+    "changes": "Added the ability to create convoes",
     "type": "convoes"
   },
   "0.14.0": {
