@@ -7,6 +7,18 @@ export interface User {
     desc?: string;
 }  
 
+export interface Chat {
+    _id: string;
+    chatName: string;
+    privacyOption: string;
+    chatPassword?: string;
+    chatDesc: string;
+    ownerUsername: string;
+    createdBy: string;
+    ownerId: string;
+    usersAdded: string;
+}
+
 export interface Version {
     vername: string;
     changes: string;

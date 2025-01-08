@@ -19,21 +19,32 @@ body {
 
 @keyframes bgGradient {
   0% {
-    transform: translate(100%, -150%);
+    transform: translate(100%, -85%);
   }
   50% {
     transform: translate(100%, 0%);
   }
 
   100% {
-    transform: translate(100%, 150%);
+    transform: translate(100%, 115%);
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .mainBackground {
+    top: -500;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .mainBackground {
+    top: 0;
   }
 }
 
 .mainBackground{
   display: flex;
   position: fixed;
-  top: 0;
   left: 0;
   z-index: -100;
   width: 200vw;
@@ -193,7 +204,7 @@ body {
   z-index: -102;
   padding: 3px;
   margin: 5px;
-  animation: bgGradient 3s linear infinite;
+  animation: bgGradient 1.85s linear infinite;
   transform: translate(200%, 200%);
   animation-delay: 250ms;
   background-size: 300%;

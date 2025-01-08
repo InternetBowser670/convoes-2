@@ -62,6 +62,11 @@ export default function RootLayout({
             </div>
             <div className="bgCircle">
 
+            </div><div className="bgCircle">
+
+            </div>
+            <div className="bgCircle">
+
             </div>
           </div>
           <div id='bgLine-2' className="bg-line">

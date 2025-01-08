@@ -25,10 +25,18 @@ export default function Page() {
                             children: <p className="text-3xl" >Add user functionality</p>
                         },
                         {
+                            color: 'green',
+                            children: (
+                                <>
+                                    <p className="text-3xl">Add chat creation functionality (Jan 2025)</p>
+                                </>
+                            ),
+                        },
+                        {
                             color: 'yellow',
                             children: (
                                 <>
-                                    <p className="text-3xl">Add chat functionality (Jan 2025)</p>
+                                    <p className="text-3xl">Add chat messaging functionality</p>
                                 </>
                             ),
                         },
@@ -37,14 +45,6 @@ export default function Page() {
                             children: (
                                 <>
                                     <p className="text-3xl" >Add badges </p>
-                                </>
-                            ),
-                        },
-                        {
-                            color: 'white',
-                            children: (
-                                <>
-                                    <p className="text-3xl">Add chat functionality</p>
                                 </>
                             ),
                         },

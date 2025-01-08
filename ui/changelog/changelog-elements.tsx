@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.15.0": {
+    "date": "1/7/24",
+    "changes": "Added the ability to vreate convoes.",
+    "type": "convoes"
+  },
   "0.14.0": {
     "date": "12/31/24",
     "changes": "Added a blurred background to much of the site's UI",

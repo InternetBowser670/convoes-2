@@ -1,6 +1,6 @@
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
-import {currentUser} from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 
 export const dynamic = 'force-dynamic';
 
@@ -30,19 +30,44 @@ export async function POST(req: NextRequest) {
     const user = await currentUser()
 
     if (!user) {
-        return new NextResponse()
+        return NextResponse.json({ message: 'Unauthorized' },
+            { status: 401 })
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const chats = await db.collection("chats");
+    const publicChats = await db.collection("chats-public");
+    const privateChats = await db.collection("chats-private");
 
     const body = await new Response(req.body).json();
 
     const chatName = body.chatName;
     const privacyOption = body.privacyOption;
     const chatPassword = body.chatPassword;
+    const chatDesc = body.chatDesc || `Welcome to ${chatName}`;
 
-    console.log(chatName, privacyOption, chatPassword);
+    let existingDocument;
 
-    return new NextResponse("It Worked")
+    if (privacyOption == 'public') {
+        existingDocument = await publicChats.findOne({ chatName: chatName });
+    } else if (privacyOption == 'private') {
+        existingDocument = await privateChats.findOne({ chatName: chatName });
+    }
+
+    if (!existingDocument) {
+        //NESTED IF STATEMENTS??? (dont hate me)
+        if (privacyOption == 'public') {
+            publicChats.insertOne({ chatName, privacyOption, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: "1" })
+        } else if (privacyOption == 'private') {
+            privateChats.insertOne({ chatName, privacyOption, chatPassword, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: "1" })
+        }
+    } else {
+        console.log("chat already exists")
+        return NextResponse.json({ message: 'chat already exists with that name' },
+            { status: 401 })
+    }
+
+    console.log(chatName, privacyOption, chatPassword, user.username, chatDesc);
+
+    return NextResponse.json({ message: 'It worked' },
+        { status: 200 })
 }
