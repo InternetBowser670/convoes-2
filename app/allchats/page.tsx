@@ -55,7 +55,7 @@ export default function Page() {
                     {data.map((chat: Chat) => (
                         <div key={chat._id} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink">
                             <div className="flex items-center justify-between content-center">
-                                <TextWithSeeMore maxLength={40} text={chat.chatName} className='font-bold'/>
+                                <TextWithSeeMore maxLength={19} text={chat.chatName} className='font-bold'/>
                                 <div className='flex px-2'>
                                     <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
                                     <p> {chat.usersAdded} </p>
@@ -63,7 +63,7 @@ export default function Page() {
                             </div>
                             <br />
                             {chat.chatDesc ? (
-                                <TextWithSeeMore text={chat.chatDesc} maxLength={45} className='text-ellipsis overflow-hidden seeMoreText'/>
+                                <TextWithSeeMore text={chat.chatDesc} maxLength={26} className='text-ellipsis overflow-hidden seeMoreText'/>
                             ) : (
                                 <>
                                     <p>Desc: (N/A)</p>
