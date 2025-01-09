@@ -34,7 +34,6 @@ export async function POST(req: NextRequest) {
             { status: 401 })
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const publicChats = await db.collection("chats-public");
     const privateChats = await db.collection("chats-private");
 

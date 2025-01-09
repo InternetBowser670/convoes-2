@@ -5,9 +5,9 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { JetBrains_Mono } from "next/font/google";
 import clsx from "clsx";
 import Link from "next/link";
-import Pfp from "./homepage/pfp";
+import Pfp from "../homepage/pfp";
 import { usePathname } from "next/navigation";
-import NavbarChatsIcon from "@/ui/convoes-chats-icon"
+import NavbarChatsIcon from "@/ui/navbar/convoes-chats-icon"
 
 const jetbrains_800weight = JetBrains_Mono({
     weight: "800",

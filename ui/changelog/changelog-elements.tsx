@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.15.2": {
+    "date": "1/8/24",
+    "changes": "Patched a small problem with the Convoes navbar tooltip and fixed the roadmap font",
+    "type": "convoes"
+  },
   "0.15.1": {
     "date": "1/7/24",
     "changes": "Patched a small problem with creating convoes",

@@ -32,7 +32,7 @@ body {
 
 @media only screen and (max-width: 800px) {
   .mainBackground {
-    top: -500;
+    top: -500px;
   }
 }
 
@@ -199,7 +199,6 @@ body {
 
 .bg-line {
   width: 100px;
-  height: 100px;
   height: 100%;
   z-index: -102;
   padding: 3px;
@@ -213,4 +212,17 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+.tooltip {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.tooltip.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }

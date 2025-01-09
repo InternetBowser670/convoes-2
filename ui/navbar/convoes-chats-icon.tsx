@@ -4,6 +4,7 @@ import { ChatBubbleLeftEllipsisIcon } from '@heroicons/react/24/solid'
 import { JetBrains_Mono } from "next/font/google";
 import Link from 'next/link';
 import clsx from "clsx";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { PlusCircleIcon, ChatBubbleLeftIcon } from '@heroicons/react/24/solid';
 const jetbrains_800weight = JetBrains_Mono({
@@ -13,12 +14,20 @@ const jetbrains_800weight = JetBrains_Mono({
 
 export default function NavbarChatsIcon() {
 
+    const [isTooltipVisible, setTooltipVisible] = useState(false);
+
+    const toggleTooltip = () => {
+        setTooltipVisible(!isTooltipVisible);
+    };
+
+
     const pathname = usePathname();
 
     return (
-        <div className={`${jetbrains_800weight.className} group`}>
-            <ChatBubbleLeftEllipsisIcon className="h-6 w-6" />
-            <div className="opacity-0 border-white border-2 rounded-2xl text-white w-[250px] p-2 top-[40px] bg-blue-700 backdrop-filter backdrop-blur-md absolute z-100 group-hover:opacity-100 transition-opacity duration-300">
+        <div className={`${jetbrains_800weight.className} relative inline-block group`}>
+            <ChatBubbleLeftEllipsisIcon className="h-6 w-6" onClick={toggleTooltip} />
+            {/*{isTooltipVisible && (*/}
+            <div className={`border-white tooltip ${isTooltipVisible ? 'visible' : ''} border-2 rounded-2xl text-white w-[250px] p-2 mt-2 top-[30] bg-blue-700 backdrop-filter backdrop-blur-md absolute`}>
                 <Link className={clsx(
                     jetbrains_800weight.className +
                     " " +
@@ -44,6 +53,7 @@ export default function NavbarChatsIcon() {
                     <ChatBubbleLeftIcon className="mr-2 inline h-6 w-6" />   View all public Convoes
                 </Link>
             </div>
+            {/*)}*/}
         </div>
     )
 }
