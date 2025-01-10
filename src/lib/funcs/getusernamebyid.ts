@@ -23,8 +23,10 @@ export async function getUsernameById(id: string) {
   const user = await users.findOne({ id: requestedId });
 
   if (!user) {
+    await client.close()
     return "Server Error";
   }
 
+  await client.close()
   return user.username;
 }

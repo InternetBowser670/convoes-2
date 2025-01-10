@@ -55,16 +55,15 @@ export default function NavbarChatsIcon() {
                         className={clsx(
                             jetbrains_800weight.className +
                             " " +
-                            "p-1 relative rounded-2xl flex divNavbarLink",
+                            "p-1 relative rounded-2xl flex flex-start divNavbarLink",
                             {
                                 "text-[#fffc36]":
                                     (pathname.includes("/allchats")) || (pathname == "/allchats")
                             },
                         )}>
-                    <ChatBubbleLeftIcon className="mr-2 inline h-6 w-6"/>
-                    <div>
-                        View all public Convoes
-                    </div>
+                    <ChatBubbleLeftIcon className="inline h-6 w-6"/>
+                        <p className={`right-[7] relative`}>View all public Convoes</p>
+
                 </button>
             </div>
             {/*)}*/}

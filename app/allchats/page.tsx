@@ -96,17 +96,19 @@ function ChatsFallback() {
 }
 
 function TemplateChat() {
-    return (<div className="backdrop-filter backdrop-blur-md border-white border-2 skeleton rounded-2xl w-[1/4] m-3 p-3 shrink">
-        <div className="flex items-center content-center">
-            <div className="rounded-full skeleton-avatar bg-red-500 pfp">
-                <div className="glimmer-line"></div>
+    return (<div
+        className="backdrop-filter backdrop-blur-md border-white border-2 skeleton rounded-2xl w-[1/4] m-3 p-3 shrink">
+        <div className="flex justify-between items-center content-center">
+            <div className="w-[250px] ml-2 rounded-xl skeleton-title bg-red-500 h-[25]">
             </div>
-            <div className="w-[100] ml-2 rounded-xl skeleton-title bg-red-500 h-[25]">
+            <div className=" w-[50px] ml-2 rounded-xl skeleton-title bg-red-500 h-[25]">
             </div>
         </div>
-        <br />
+        <br/>
         <div className="w-[300] ml-2 rounded-xl skeleton-text bg-red-500 h-[25]">
         </div>
-        <br />
+        <br/>
+        <div className="w-[250px] ml-2 rounded-xl skeleton-title bg-red-500 h-[25]">
+        </div>
     </div>)
 }

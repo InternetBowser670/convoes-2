@@ -25,14 +25,16 @@ export async function POST(req: NextRequest) {
   const requestedId = body.id;
 
   if (!requestedId) {
+    await client.close()
     return NextResponse.json({ error: 'ID is required' }, { status: 400 });
   }
 
   const user = await users.findOne({ id: requestedId });
 
   if (!user) {
+    await client.close()
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
-
+  await client.close()
   return NextResponse.json({ username: user.username }, { status: 200 });
 }

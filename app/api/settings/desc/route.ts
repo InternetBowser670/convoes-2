@@ -32,18 +32,16 @@ export async function POST(req: NextRequest) {
     const desc = body.desc
 
     if (!user) {
+        await client.close()
         return new NextResponse("No User Found")
     }
 
     console.log(user.id)
 
-    const updateResult = await users.updateOne({ id: user.id },
+     await users.updateOne({ id: user.id },
         { $set: { desc } });
 
-    console.log(
-        `A document was updated ${updateResult.modifiedCount} times`,
-    );
-
+    await client.close()
     return new NextResponse("It Worked")
 
 }

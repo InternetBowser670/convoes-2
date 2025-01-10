@@ -36,6 +36,6 @@ export async function GET() {
     image_url: user.image_url,
     desc: user.desc,
   }));
-
+  await client.close()
   return NextResponse.json(serializedUsers);
 }

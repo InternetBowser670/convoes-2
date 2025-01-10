@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.15.4": {
+    "date": "1/9/24",
+    "changes": "Patched another small problem with MongoDB where Mongo connections don't auomatically close",
+    "type": "convoes"
+  },
   "0.15.3": {
     "date": "1/9/24",
     "changes": "Patched another small problem with the Convoes navbar tooltip and made the cutoff for chat descriptions and names shorter",

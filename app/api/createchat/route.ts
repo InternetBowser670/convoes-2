@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     const user = await currentUser()
 
     if (!user) {
+        await client.close()
         return NextResponse.json({ message: 'Unauthorized' },
             { status: 401 })
     }
@@ -61,12 +62,12 @@ export async function POST(req: NextRequest) {
         }
     } else {
         console.log("chat already exists")
+        await client.close()
         return NextResponse.json({ message: 'chat already exists with that name' },
             { status: 401 })
     }
 
-    console.log(chatName, privacyOption, chatPassword, user.username, chatDesc);
-
+    await client.close()
     return NextResponse.json({ message: 'It worked' },
         { status: 200 })
 }
