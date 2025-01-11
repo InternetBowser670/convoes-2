@@ -2,9 +2,14 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.15.5": {
+    "date": "1/10/24",
+    "changes": "Made chats all use the same db collection again (will help for later)",
+    "type": "convoes"
+  },
   "0.15.4": {
     "date": "1/9/24",
-    "changes": "Patched another small problem with MongoDB where Mongo connections don't auomatically close",
+    "changes": "Patched another small problem with MongoDB where Mongo connections don't automatically close",
     "type": "convoes"
   },
   "0.15.3": {

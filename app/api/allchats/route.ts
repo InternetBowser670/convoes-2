@@ -26,7 +26,7 @@ export async function GET() {
   } else {
     db = client.db(process.env.MONGODB_DB_NAME);
   }
-  const chats = db.collection("chats-public");
+  const chats = db.collection("chats");
   const allChats = await chats.find( { privacyOption: "public" } ).toArray();
 
   const serializedChats = await Promise.all(

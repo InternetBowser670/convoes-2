@@ -70,7 +70,10 @@ export default function Page() {
         }).then(response => {
             if (response.ok) {
                 alert("Successfully created Convo");
-            } else {
+            } else if (response.status === 401) {
+                alert("Unauthorized");
+            }
+            else {
                 alert("Convo Creation Failed");
             }
         })
