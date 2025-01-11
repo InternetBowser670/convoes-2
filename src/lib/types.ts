@@ -12,6 +12,7 @@ export interface ChatDocument {
     members: string[];
     privacyOption: string;
     chatDesc: string;
+    chatPassword?: string;
     createdById: string;
     ownerId: string;
     usersAdded: number;

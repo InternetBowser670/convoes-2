@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { currentUser } from "@clerk/nextjs/server";
+import { ChatDocument } from '@/src/lib/types'
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
             { status: 401 })
     }
 
-    const chats = db.collection("chats");
+    const chats = db.collection<ChatDocument>("chats");
     const users = db.collection("users");
 
     const userDoc = await users.findOne({ id: user.id });
