@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.15.6": {
+    "date": "1/11/24",
+    "changes": "Updated README.md",
+    "type": "convoes"
+  },
   "0.15.5": {
     "date": "1/10/24",
     "changes": "Made chats all use the same db collection again (will help for later)",
