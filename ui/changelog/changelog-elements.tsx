@@ -2,38 +2,43 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.16.0": {
+    "date": "1/11/25",
+    "changes": "Added the ability to join Convoes",
+    "type": "convoes"
+  },
   "0.15.6": {
-    "date": "1/11/24",
+    "date": "1/11/25",
     "changes": "Updated README.md",
     "type": "convoes"
   },
   "0.15.5": {
-    "date": "1/10/24",
+    "date": "1/10/25",
     "changes": "Made chats all use the same db collection again (will help for later)",
     "type": "convoes"
   },
   "0.15.4": {
-    "date": "1/9/24",
+    "date": "1/9/25",
     "changes": "Patched another small problem with MongoDB where Mongo connections don't automatically close",
     "type": "convoes"
   },
   "0.15.3": {
-    "date": "1/9/24",
+    "date": "1/9/25",
     "changes": "Patched another small problem with the Convoes navbar tooltip and made the cutoff for chat descriptions and names shorter",
     "type": "convoes"
   },
   "0.15.2": {
-    "date": "1/8/24",
+    "date": "1/8/25",
     "changes": "Patched a small problem with the Convoes navbar tooltip and fixed the roadmap font",
     "type": "convoes"
   },
   "0.15.1": {
-    "date": "1/7/24",
+    "date": "1/7/25",
     "changes": "Patched a small problem with creating convoes",
     "type": "convoes"
   },
   "0.15.0": {
-    "date": "1/7/24",
+    "date": "1/7/25",
     "changes": "Added the ability to create convoes",
     "type": "convoes"
   },

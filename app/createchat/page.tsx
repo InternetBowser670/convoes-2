@@ -67,14 +67,18 @@ export default function Page() {
                 chatPassword: chatPassword,
                 chatDesc: chatDesc
             })
-        }).then(response => {
+        }).then(async response => {
+            const data = await response.json();
             if (response.ok) {
                 alert("Successfully created Convo");
             } else if (response.status === 401) {
                 alert("Unauthorized");
-            }
-            else {
-                alert("Convo Creation Failed");
+            } else {
+                if (data.message) {
+                    alert(data.message);
+                } else {
+                    alert("Convo Creation Failed");
+                }
             }
         })
 

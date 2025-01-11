@@ -5,14 +5,26 @@ export interface User {
     last_name?: string;
     image_url?: string;
     desc?: string;
-}  
+}
+
+export interface ChatDocument {
+    chatName: string;
+    members: string[];
+    privacyOption: string;
+    chatDesc: string;
+    createdById: string;
+    ownerId: string;
+    usersAdded: number;
+}
+
 
 export interface Chat {
     _id: string;
     chatName: string;
     privacyOption: string;
+    members: string[];
     chatPassword?: string;
-    chatDesc: string;
+    chatDesc?: string;
     ownerUsername: string;
     createdBy: string;
     ownerId: string;

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { currentUser } from "@clerk/nextjs/server";
+import { ChatDocument } from '@/src/lib/types'
 
 export const dynamic = 'force-dynamic';
 
@@ -27,10 +28,7 @@ export async function POST(req: NextRequest) {
         db = client.db(process.env.MONGODB_DB_NAME);
     }
 
-    const user = await currentUser()
-    console.log(req.cookies);
-
-    console.log(user)
+    const user = await currentUser();
 
     if (!user) {
         await client.close()
@@ -39,9 +37,9 @@ export async function POST(req: NextRequest) {
     }
 
     const chats = db.collection("chats");
+    const users = db.collection("users");
 
     const body = await new Response(req.body).json();
-    console.log(body)
 
     const chatName = body.chatName;
     const privacyOption = body.privacyOption;
@@ -53,19 +51,20 @@ export async function POST(req: NextRequest) {
     if (!existingDocument) {
         //NESTED IF STATEMENTS??? (dont hate me)
         if (privacyOption == 'public') {
-            chats.insertOne({ chatName, privacyOption, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: "1" })
+            chats.insertOne({ chatName, members: [user.id], privacyOption, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: 1 } as ChatDocument)
         } else if (privacyOption == 'private') {
-            chats.insertOne({ chatName, privacyOption, chatPassword, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: "1" })
+            chats.insertOne({ chatName, privacyOption, members: [ user.id ], chatPassword, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: 1 } as ChatDocument)
         }
+        await users.updateOne({ id: user.id },
+            { $push: { chats: chatName }});
     } else {
-        console.log("chat already exists")
         await client.close()
-        return NextResponse.json({ message: 'chat already exists with that name' },
+        return NextResponse.json({ message: 'Convo already exists with that name' },
             { status: 400 })
     }
 
     await client.close()
-    return (NextResponse.json({ message: 'It worked' },
+    return (NextResponse.json({ message: 'Success' },
         { status: 200 }))
 
 }

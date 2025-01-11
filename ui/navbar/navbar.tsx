@@ -17,7 +17,7 @@ const jetbrains_800weight = JetBrains_Mono({
 export default function Navbar() {
     const links = [
         { name: "Home", href: "/", icon: HomeIcon },
-        { name: "Chats", altLinks: ["/createchat"], useDiv: true, href: "/allchats", icon: NavbarChatsIcon },
+        { name: "Chats", altLinks: ["/createchat", "/joinchat"], useDiv: true, href: "/allchats", icon: NavbarChatsIcon },
         { name: "Users", href: "/allusers", icon: UsersIcon },
         { name: "Changelog", href: "/changelog", icon: ArchiveBoxIcon },
         { name: "Donate", href: "https://pay.internetbowser.com", icon: CurrencyDollarIcon },

@@ -2,12 +2,11 @@
 
 import {ChatBubbleLeftEllipsisIcon} from '@heroicons/react/24/solid'
 import {JetBrains_Mono} from "next/font/google";
-import Link from 'next/link';
 import clsx from "clsx";
 import { useRouter } from 'next/navigation';
 import {useState} from "react";
 import {usePathname} from "next/navigation";
-import {PlusCircleIcon, ChatBubbleLeftIcon} from '@heroicons/react/24/solid';
+import {PlusCircleIcon, ChatBubbleLeftIcon, ListBulletIcon} from '@heroicons/react/24/solid';
 
 const jetbrains_800weight = JetBrains_Mono({
     weight: "800",
@@ -62,7 +61,24 @@ export default function NavbarChatsIcon() {
                             },
                         )}>
                     <ChatBubbleLeftIcon className="inline h-6 w-6"/>
-                        <p className={`right-[7] relative`}>View all public Convoes</p>
+                    <p className={`right-[7] relative`}>View all public Convoes</p>
+
+                </button>
+                <button onClick={() => {
+                    toggleTooltip();
+                    router.push('/joinchat')
+                }}
+                        className={clsx(
+                            jetbrains_800weight.className +
+                            " " +
+                            "p-1 relative rounded-2xl flex flex-start divNavbarLink",
+                            {
+                                "text-[#fffc36]":
+                                    (pathname.includes("/joinchat")) || (pathname == "/joinchat")
+                            },
+                        )}>
+                    <ListBulletIcon className="inline h-6 w-6"/>
+                    <p className={`left-[15] relative`}>Join a private Convo</p>
 
                 </button>
             </div>

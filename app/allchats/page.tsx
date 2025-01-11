@@ -24,6 +24,27 @@ if (useProdUrl) {
 
 
 export default function Page() {
+    function joinchat(chatname: string) {
+        fetch(`${baseUrl}/api/joinchat`, {
+            method: "POST",
+            body: JSON.stringify({
+                chatName: chatname,
+            })
+        }).then(async response => {
+            const data = await response.json();
+            if (response.ok) {
+                alert("Successfully joined Convo");
+            } else if (response.status === 401) {
+                alert("Unauthorized");
+            } else {
+                if (data.message) {
+                    alert(data.message);
+                } else {
+                    alert("Convo Joining Failed");
+                }
+            }
+        });
+    }
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -55,7 +76,11 @@ export default function Page() {
                     {data.map((chat: Chat) => (
                         <div key={chat._id} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink">
                             <div className="flex items-center justify-between content-center">
-                                <TextWithSeeMore maxLength={19} text={chat.chatName} className='font-bold'/>
+                                <div className={`flex`}>
+                                    <TextWithSeeMore maxLength={19} text={chat.chatName} className='font-bold'/>
+                                    <button className={`ml-2 border-white hover:text-blue-700 hover:bg-white rounded-2xl text-sm border-2 p-[2]`} onClick={() => joinchat(chat.chatName)}>Join</button>
+                                </div>
+
                                 <div className='flex px-2'>
                                     <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
                                     <p> {chat.usersAdded} </p>
