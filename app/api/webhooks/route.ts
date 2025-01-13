@@ -94,8 +94,6 @@ export async function POST(req: Request) {
   }
 
 
-  console.log("Webhook Recieved")
-
   await client.close()
   return new Response('Webhook received', { status: 200 })
 }

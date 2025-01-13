@@ -24,48 +24,71 @@ if (useProdUrl) {
 
 
 export default function Page() {
+
+    const [data, setData] = useState([]);
+    const [chatData, setChatData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const fetchData = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`${baseUrl}/api/allchats`, {
+                method: "GET",
+            });
+            const data = await response.json();
+            setData(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const fetchUserChats = async () => {
+        try {
+            const response = await fetch(`${baseUrl}/api/getuserchats`, {
+                method: "GET",
+            });
+            const data = await response.json();
+            setChatData(data.chats);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+        fetchUserChats();
+    }, []);
+
     function joinchat(chatname: string) {
         fetch(`${baseUrl}/api/joinchat`, {
             method: "POST",
-            body: JSON.stringify({
-                chatName: chatname,
-            })
-        }).then(async response => {
-            const data = await response.json();
-            if (response.ok) {
-                alert("Successfully joined Convo");
-            } else if (response.status === 401) {
-                alert("Unauthorized");
-            } else {
-                if (data.message) {
-                    alert(data.message);
-                } else {
-                    alert("Convo Joining Failed");
-                }
-            }
-        });
-    }
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetch(`${baseUrl}/api/allchats`, {
-                    method: "GET",
-                });
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chatName: chatname })
+        })
+            .then(async response => {
                 const data = await response.json();
-                setData(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+                if (response.ok) {
+                    alert("Successfully joined Convo");
+                    fetchUserChats();
+                } else if (response.status === 401) {
+                    alert("Unauthorized");
+                } else {
+                    if (data.message) {
+                        alert(data.message);
+                    } else {
+                        alert("Convo Joining Failed");
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error joining chat:', error);
+                alert("An error occurred while joining the chat.");
+            });
+    }
 
-        fetchData();
-    }, []);
+
 
     return (
         <div className={`${jetbrains_400weight.className}`}>
@@ -78,11 +101,20 @@ export default function Page() {
                             <div className="flex items-center justify-between content-center">
                                 <div className={`flex`}>
                                     <TextWithSeeMore maxLength={19} text={chat.chatName} className='font-bold'/>
-                                    <button className={`ml-2 border-white hover:text-blue-700 hover:bg-white rounded-2xl text-sm border-2 p-[2]`} onClick={() => joinchat(chat.chatName)}>Join</button>
+                                    {
+                                        // @ts-expect-error this is literally hard cap
+                                        chatData.includes(chat.chatName) ? <button
+                                                className={`ml-3 text-blue-700 bg-white rounded-2xl text-sm border-2 p-[2]`}
+                                                >Joined</button>
+                                            : <button
+                                                className={`ml-3 border-white hover:text-blue-700 hover:bg-white rounded-2xl text-sm border-2 p-[2] px-3`}
+                                                onClick={() => joinchat(chat.chatName)}>Join</button>
+                                    }
+
                                 </div>
 
                                 <div className='flex px-2'>
-                                    <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
+                                    <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"}/>
                                     <p> {chat.usersAdded} </p>
                                 </div>
                             </div>

@@ -33,7 +33,7 @@ export default function Page() {
                             ),
                         },
                         {
-                            color: 'yellow',
+                            color: 'green',
                             children: (
                                 <>
                                     <p className="text-3xl">Add chat joining functionality</p>
@@ -41,7 +41,7 @@ export default function Page() {
                             ),
                         },
                         {
-                            color: 'white',
+                            color: 'yellow',
                             children: (
                                 <>
                                     <p className="text-3xl">Add chat messaging functionality (Jan 2025)</p>

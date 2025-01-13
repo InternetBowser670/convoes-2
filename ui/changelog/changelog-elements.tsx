@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.17.0": {
+    "date": "1/12/25",
+    "changes": "The global Convoes page now shows which Convoes you are in",
+    "type": "convoes"
+  },
   "0.16.0": {
     "date": "1/11/25",
     "changes": "Added the ability to join Convoes",

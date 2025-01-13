@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useRouter } from 'next/navigation';
 import {useState} from "react";
 import {usePathname} from "next/navigation";
-import {PlusCircleIcon, ChatBubbleLeftIcon, ListBulletIcon} from '@heroicons/react/24/solid';
+import {PlusCircleIcon, GlobeAmericasIcon, ListBulletIcon} from '@heroicons/react/24/solid';
 
 const jetbrains_800weight = JetBrains_Mono({
     weight: "800",
@@ -60,7 +60,7 @@ export default function NavbarChatsIcon() {
                                     (pathname.includes("/allchats")) || (pathname == "/allchats")
                             },
                         )}>
-                    <ChatBubbleLeftIcon className="inline h-6 w-6"/>
+                    <GlobeAmericasIcon className="inline h-6 w-6"/>
                     <p className={`right-[7] relative`}>View all public Convoes</p>
 
                 </button>
