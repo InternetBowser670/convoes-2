@@ -1,6 +1,5 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
 import { currentUser } from '@clerk/nextjs/server'
 
 export const dynamic = 'force-dynamic';
