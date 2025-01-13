@@ -20,7 +20,7 @@ export default function Navbar() {
         { name: "Chats", altLinks: ["/createchat", "/joinchat"], useDiv: true, href: "/allchats", icon: NavbarChatsIcon },
         { name: "Users", href: "/allusers", icon: UsersIcon },
         { name: "Changelog", href: "/changelog", icon: ArchiveBoxIcon },
-        { name: "Donate", href: "https://pay.internetbowser.com", icon: CurrencyDollarIcon },
+        { name: "Donate", href: "https://www.buymeacoffee.com/internetbowser", icon: CurrencyDollarIcon },
         { name: "Roadmap", href: "/roadmap", icon: MapIcon },
         { name: "Settings", href: "/settings", icon: Cog6ToothIcon },
     ];

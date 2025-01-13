@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.18.0": {
+    "date": "1.13.25",
+    "changes": "Made the donate link refer to https://www.buymeacoffee.com/internetbowser",
+    "type": "convoes"
+  },
   "0.17.0": {
     "date": "1/12/25",
     "changes": "The global Convoes page now shows which Convoes you are in",
