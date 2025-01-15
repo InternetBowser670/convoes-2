@@ -105,7 +105,7 @@ export default function Page() {
                                     {
                                         // @ts-expect-error this is literally hard cap
                                         chatData.includes(chat.chatName) ? <div
-                                                className={`ml-3 text-blue-700 bg-white rounded-2xl text-sm p-[2]`}
+                                                className={`ml-3 text-blue-700 bg-white rounded-2xl text-sm p-[2px] content-center`}
                                                 >Joined</div>
                                             : <button
                                                 className={`ml-3 border-white hover:text-blue-700 hover:bg-white rounded-2xl text-sm border-2 p-[2] px-3`}
