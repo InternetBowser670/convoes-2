@@ -45,6 +45,7 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
+    await client.close()
     return new Response('Error: Missing Svix headers', {
       status: 400,
     })
@@ -65,15 +66,13 @@ export async function POST(req: Request) {
     }) as WebhookEvent
   } catch (err) {
     console.error('Error: Could not verify webhook:', err)
+    await client.close()
     return new Response('Error: Verification error', {
       status: 400,
     })
   }
 
-  // Do something with payload
-  // For this guide, log payload to console
   const eventType = evt.type
-  console.log(`Received webhook with event type of ${eventType}`)
 
   try {
     if (eventType === "user.created") {
@@ -82,25 +81,19 @@ export async function POST(req: Request) {
           `A document was inserted with the _id: ${result.insertedId}`,
       );
     } else if (eventType === "user.deleted") {
-      const deleteResult = await users.deleteOne({ id: evt.data.id });
-      console.log(
-        `A document was deleted ${deleteResult.deletedCount} times`,
-      );
+      await users.deleteOne({ id: evt.data.id });
     } else if (eventType === "user.updated") {
       const userData = evt.data
-      const updateResult = await users.updateOne( { id: evt.data.id },
+      await users.updateOne( { id: evt.data.id },
         { $set: userData });
-      console.log(
-        `A document was updated ${updateResult.modifiedCount} times`,
-      );
     }
   } catch (error) {
-    console.error("Error updating Firebase:", error);
-    return new Response("Error updating Firebase", { status: 500 });
+    console.error("Error updating mongo:", error);
+    await client.close()
+    return new Response("Error updating mongo", { status: 500 });
   }
 
 
-  console.log("Webhook Recieved")
-
+  await client.close()
   return new Response('Webhook received', { status: 200 })
 }

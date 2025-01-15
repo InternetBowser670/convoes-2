@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { currentUser } from "@clerk/nextjs/server";
+import { ChatDocument } from '@/src/lib/types'
 
 export const dynamic = 'force-dynamic';
 
@@ -27,16 +28,16 @@ export async function POST(req: NextRequest) {
         db = client.db(process.env.MONGODB_DB_NAME);
     }
 
-    const user = await currentUser()
+    const user = await currentUser();
 
     if (!user) {
+        await client.close()
         return NextResponse.json({ message: 'Unauthorized' },
             { status: 401 })
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const publicChats = await db.collection("chats-public");
-    const privateChats = await db.collection("chats-private");
+    const chats = db.collection("chats");
+    const users = db.collection("users");
 
     const body = await new Response(req.body).json();
 
@@ -45,29 +46,25 @@ export async function POST(req: NextRequest) {
     const chatPassword = body.chatPassword;
     const chatDesc = body.chatDesc || `Welcome to ${chatName}`;
 
-    let existingDocument;
-
-    if (privacyOption == 'public') {
-        existingDocument = await publicChats.findOne({ chatName: chatName });
-    } else if (privacyOption == 'private') {
-        existingDocument = await privateChats.findOne({ chatName: chatName });
-    }
+    const existingDocument = await chats.findOne({ chatName: chatName });
 
     if (!existingDocument) {
         //NESTED IF STATEMENTS??? (dont hate me)
         if (privacyOption == 'public') {
-            publicChats.insertOne({ chatName, privacyOption, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: "1" })
+            chats.insertOne({ chatName, members: [user.id], privacyOption, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: 1 } as ChatDocument)
         } else if (privacyOption == 'private') {
-            privateChats.insertOne({ chatName, privacyOption, chatPassword, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: "1" })
+            chats.insertOne({ chatName, privacyOption, members: [ user.id ], chatPassword, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: 1 } as ChatDocument)
         }
+        await users.updateOne({ id: user.id },
+            { $push: { chats: chatName }});
     } else {
-        console.log("chat already exists")
-        return NextResponse.json({ message: 'chat already exists with that name' },
-            { status: 401 })
+        await client.close()
+        return NextResponse.json({ message: 'Convo already exists with that name' },
+            { status: 400 })
     }
 
-    console.log(chatName, privacyOption, chatPassword, user.username, chatDesc);
+    await client.close()
+    return (NextResponse.json({ message: 'Success' },
+        { status: 200 }))
 
-    return NextResponse.json({ message: 'It worked' },
-        { status: 200 })
 }

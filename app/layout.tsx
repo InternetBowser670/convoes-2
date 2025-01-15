@@ -3,7 +3,7 @@ import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
 import { ClerkProvider } from '@clerk/nextjs'
-import Navbar from "@/ui/navbar";
+import Navbar from "@/ui/navbar/navbar";
 import { dark } from '@clerk/themes'
 import VersionName from '@/ui/version-name'
 import { ConfigProvider } from 'antd';
@@ -22,7 +22,13 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body
         className={`bg-blue-700 m-5 h-full flex flex-col antialiased`}
-      ><ConfigProvider>
+      ><ConfigProvider
+          theme={{
+                token: {
+                  fontFamily: "JetBrains Mono, JetBrains Mono Fallback"
+                }
+          }}
+      >
           <ClerkProvider appearance={{
             baseTheme: dark,
             elements: {

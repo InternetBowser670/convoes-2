@@ -39,6 +39,7 @@ export async function POST() {
 
     users.updateOne( { id: userId }, { $set: {desc: "case"} } )
 
+    await client.close()
     return NextResponse.json(
         { text: "Updated successfully." },
         { status: 200 },

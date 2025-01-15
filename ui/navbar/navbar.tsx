@@ -5,9 +5,9 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { JetBrains_Mono } from "next/font/google";
 import clsx from "clsx";
 import Link from "next/link";
-import Pfp from "./homepage/pfp";
+import Pfp from "../homepage/pfp";
 import { usePathname } from "next/navigation";
-import NavbarChatsIcon from "@/ui/convoes-chats-icon"
+import NavbarChatsIcon from "@/ui/navbar/convoes-chats-icon"
 
 const jetbrains_800weight = JetBrains_Mono({
     weight: "800",
@@ -17,10 +17,10 @@ const jetbrains_800weight = JetBrains_Mono({
 export default function Navbar() {
     const links = [
         { name: "Home", href: "/", icon: HomeIcon },
-        { name: "Chats", altLinks: ["/createchat"], useDiv: true, href: "/allchats", icon: NavbarChatsIcon },
+        { name: "Chats", altLinks: ["/createchat", "/joinchat"], useDiv: true, href: "/allchats", icon: NavbarChatsIcon },
         { name: "Users", href: "/allusers", icon: UsersIcon },
         { name: "Changelog", href: "/changelog", icon: ArchiveBoxIcon },
-        { name: "Donate", href: "https://pay.internetbowser.com", icon: CurrencyDollarIcon },
+        { name: "Donate", href: "https://www.buymeacoffee.com/internetbowser", icon: CurrencyDollarIcon },
         { name: "Roadmap", href: "/roadmap", icon: MapIcon },
         { name: "Settings", href: "/settings", icon: Cog6ToothIcon },
     ];
