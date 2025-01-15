@@ -78,7 +78,7 @@ export default function Page() {
                                 Chat Password:
                             </label>
                             <br />
-                            <input autocomplete="off" onChange={(e) => setChatPassword(e.target.value)}
+                            <input onChange={(e) => setChatPassword(e.target.value)}
                                    className={`rounded-2xl p-[1px] pl-[5px] focus:outline-none text-black`}
                                    placeholder={"Password0!"} type={"password"}>
                             </input>
