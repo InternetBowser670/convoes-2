@@ -57,9 +57,27 @@ export default function Page() {
         }
     };
 
+    const updateAllData = async () => {
+        try {
+            const response = await fetch(`${baseUrl}/api/getuserchats`, {
+                method: "GET",
+            });
+            const data = await response.json();
+            setChatData(data.chats || []);
+            const chatsResponse = await fetch(`${baseUrl}/api/allchats`, {
+                method: "GET",
+            });
+            const chatsData = await chatsResponse.json();
+            setData(chatsData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     useEffect(() => {
         fetchData();
         fetchUserChats();
+        setInterval(updateAllData, 15000);
     }, []);
 
     function joinchat(chatname: string) {
@@ -72,7 +90,7 @@ export default function Page() {
                 const data = await response.json();
                 if (response.ok) {
                     alert("Successfully joined Convo");
-                    fetchUserChats();
+                    updateAllData();
                 } else if (response.status === 401) {
                     alert("Unauthorized");
                 } else {
