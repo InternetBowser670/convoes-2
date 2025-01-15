@@ -35,7 +35,7 @@ export async function GET() {
   if (retval === 0)
     retval = a.username < b.username ? -1 : 1;
   return retval;
-}}).toArray();
+}).toArray();
 
   const serializedUsers = allUsers.map(user => ({
     _id: user._id.toString(),
