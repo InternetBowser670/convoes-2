@@ -2,8 +2,13 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.18.1": {
+    "date": "1/14/25",
+    "changes": "Fixed a bug with the /allusers page where it would throw an error if you are not signed in",
+    "type": "convoes"
+  },
   "0.18.0": {
-    "date": "1.13.25",
+    "date": "1/13/25",
     "changes": "Made the donate link refer to https://www.buymeacoffee.com/internetbowser",
     "type": "convoes"
   },

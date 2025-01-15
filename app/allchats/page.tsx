@@ -50,7 +50,8 @@ export default function Page() {
                 method: "GET",
             });
             const data = await response.json();
-            setChatData(data.chats);
+            console.log(data.chats)
+            setChatData(data.chats || []);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -103,9 +104,9 @@ export default function Page() {
                                     <TextWithSeeMore maxLength={19} text={chat.chatName} className='font-bold'/>
                                     {
                                         // @ts-expect-error this is literally hard cap
-                                        chatData.includes(chat.chatName) ? <button
-                                                className={`ml-3 text-blue-700 bg-white rounded-2xl text-sm border-2 p-[2]`}
-                                                >Joined</button>
+                                        chatData.includes(chat.chatName) ? <div
+                                                className={`ml-3 text-blue-700 bg-white rounded-2xl text-sm p-[2]`}
+                                                >Joined</div>
                                             : <button
                                                 className={`ml-3 border-white hover:text-blue-700 hover:bg-white rounded-2xl text-sm border-2 p-[2] px-3`}
                                                 onClick={() => joinchat(chat.chatName)}>Join</button>
