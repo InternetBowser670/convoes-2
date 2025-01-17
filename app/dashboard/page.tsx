@@ -67,7 +67,7 @@ export default function Page() {
 
 
     return (
-        <div className={`${jetbrains_400weight.className} text-3xl`}>
+        <div className={`${jetbrains_400weight.className}`}>
             <h1 className={`${jetbrains_800weight.className} text-3xl`}>
                 {`Welcome, ${user?.username || ""}`}
             </h1>

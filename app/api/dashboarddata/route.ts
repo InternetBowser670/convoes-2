@@ -49,7 +49,6 @@ export async function GET() {
     dashboardData.push(await getChatData(userChats[i]))
   }
   
-  console.log(dashboardData)
 
   await client.close();
   return NextResponse.json(dashboardData);
