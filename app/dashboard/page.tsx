@@ -46,14 +46,23 @@ export default function Page() {
             });
             const data = await response.json();
 
-            for (const chat of data) {
-                console.log(chat.privacyOption)
+            const publicChats = data.filter((chat: DashboardChatData) => chat.privacyOption == 'public')
+            const privateChats = data.filter((chat: DashboardChatData) => chat.privacyOption == 'private')
+        
+
+            if (privateChats.length > 0) {
+                setPrivateChatData(privateChats)
             }
 
-            setPublicChatData(data.filter((chat: DashboardChatData) => chat.privacyOption == 'public'))
-            setPrivateChatData(data.filter((chat: DashboardChatData) => chat.privacyOption == 'private'))
+            if (publicChats.length > 0) {
+                setPublicChatData(publicChats)
+            }
+
+            
         } catch (error) {
             console.error('Error fetching data:', error);
+            setPublicChatData([])
+            setPrivateChatData([])
         } finally {
             setIsLoading(false);
         }
@@ -77,37 +86,48 @@ export default function Page() {
             ) : (
                 <>
                     <div className='backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink'>
-                        <div className='flex content-center justify-center'>
-                            <p>Public Chats:</p>
-                        </div>
-                        <div className={`grid grid-cols-3`}>
-                            {publicChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] flex justify-between rounded-2xl w-[1/4] m-3 p-3 shrink">
-                                <p>
-                                    {chat.chatName}
-                                </p>
-                                <div className='flex px-2'>
-                                    <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
-                                    <p> {chat.usersAdded} </p>
+                        {
+                            (publicChatData.length > 0) && (<>
+                                <div className='flex content-center justify-center'>
+                                    <p>Public Chats:</p>
                                 </div>
+                                <div className={`grid grid-cols-3`}>
+                                    {publicChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] flex justify-between rounded-2xl w-[1/4] m-3 p-3 shrink">
+                                        <p>
+                                            {chat.chatName}
+                                        </p>
+                                        <div className='flex px-2'>
+                                            <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
+                                            <p> {chat.usersAdded} </p>
+                                        </div>
 
-                            </div>
-                            ))}
-                        </div>
-                        <div className='flex content-center justify-center'>
-                            <p>Private Chats:</p>
-                        </div>
-                        <div className={`grid grid-cols-3`}>
-                            {privateChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink flex justify-between">
-                                <p>
-                                    {chat.chatName}
-                                </p>
-                                <div className='flex px-2'>
-                                    <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
-                                    <p> {chat.usersAdded} </p>
+                                    </div>
+                                    ))}
                                 </div>
-                            </div>
-                            ))}
-                        </div>
+                            </>)
+                        }
+                        {
+                            (privateChatData.length > 0) && (<>
+                                <div className='flex content-center justify-center'>
+                                    <p>Private Chats:</p>
+                                </div>
+                                <div className={`grid grid-cols-3`}>
+                                    {privateChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink flex justify-between">
+                                        <p>
+                                            {chat.chatName}
+                                        </p>
+                                        <div className='flex px-2'>
+                                            <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
+                                            <p> {chat.usersAdded} </p>
+                                        </div>
+                                    </div>
+                                    ))}
+                                </div>
+                            </>)
+                        }
+
+
+
                     </div>
                 </>
             )}
