@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useRouter } from 'next/navigation';
 import {useState} from "react";
 import {usePathname} from "next/navigation";
-import {PlusCircleIcon, GlobeAmericasIcon, ListBulletIcon} from '@heroicons/react/24/solid';
+import {PlusCircleIcon, GlobeAmericasIcon, ListBulletIcon, ChatBubbleLeftRightIcon} from '@heroicons/react/24/solid';
 
 const jetbrains_800weight = JetBrains_Mono({
     weight: "800",
@@ -32,6 +32,23 @@ export default function NavbarChatsIcon() {
             {/*{isTooltipVisible && (*/}
             <div
                 className={`border-white items-start flex flex-col content-start tooltip ${isTooltipVisible ? 'visible' : ''} border-2 rounded-2xl text-white w-[250px] p-2 mt-2 top-[30] bg-blue-700 backdrop-filter backdrop-blur-md absolute`}>
+                    <button onClick={() => {
+                    toggleTooltip();
+                    router.push('/dashboard')
+                }}
+                        className={clsx(
+                            jetbrains_800weight.className +
+                            " " +
+                            "p-1 relative rounded-2xl flex flex-start divNavbarLink",
+                            {
+                                "text-[#fffc36]":
+                                    (pathname.includes("/dashboard")) || (pathname == "/dashboard")
+                            },
+                        )}>
+                    <ChatBubbleLeftRightIcon className="inline h-6 w-6"/>
+                    <p className={`left-[15] relative`}>Dashboard</p>
+
+                </button>
                 <button onClick={() => {
                     toggleTooltip();
                     router.push('/createchat')
@@ -81,6 +98,7 @@ export default function NavbarChatsIcon() {
                     <p className={`left-[15] relative`}>Join a private Convo</p>
 
                 </button>
+                
             </div>
             {/*)}*/}
         </div>

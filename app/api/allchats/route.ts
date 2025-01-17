@@ -1,6 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { NextResponse } from "next/server";
-import { getUsernameById } from "@/src/lib/funcs/getusernamebyid";
+import { getUsernameById } from "@/app/lib/funcs/getusernamebyid";
 
 export const dynamic = 'force-dynamic';
 
@@ -46,6 +46,6 @@ export async function GET() {
     })
   );
   
-
+  await client.close
   return NextResponse.json(serializedChats);
 }

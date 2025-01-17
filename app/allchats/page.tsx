@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Chat } from "@/src/lib/types";
+import { Chat } from "@/app/lib/types";
 import { JetBrains_Mono } from "next/font/google";
 import TextWithSeeMore from '@/ui/text-with-see-more';
 import { UserGroupIcon } from '@heroicons/react/24/solid';

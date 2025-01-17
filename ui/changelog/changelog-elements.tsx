@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.20.0": {
+    "date": "1/16/25",
+    "changes": "Added a dashboard",
+    "type": "convoes"
+  },
   "0.19.0": {
     "date": "1/14/25",
     "changes": "Made the /allchats page automatically fetch data at an interval",

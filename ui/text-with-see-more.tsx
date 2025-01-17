@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SeeMoreProps } from '@/src/lib/types';
+import { SeeMoreProps } from '@/app/lib/types';
 
 export default function TextWithSeeMore({ text, maxLength, className }: SeeMoreProps) {
   const [isExpanded, setIsExpanded] = useState(false);

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { currentUser } from "@clerk/nextjs/server";
-import { ChatDocument } from '@/src/lib/types'
+import { ChatDocument } from '@/app/lib/types'
 
 export const dynamic = 'force-dynamic';
 

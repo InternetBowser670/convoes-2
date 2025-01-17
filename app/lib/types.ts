@@ -18,6 +18,12 @@ export interface ChatDocument {
     usersAdded: number;
 }
 
+export interface DashboardChatData {
+    chatName: string;
+    privacyOption: string;
+    usersAdded: number;
+  }
+  
 
 export interface Chat {
     _id: string;

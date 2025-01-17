@@ -1,5 +1,5 @@
 import { JetBrains_Mono } from "next/font/google";
-import { Version } from "@/src/lib/types";
+import { Version } from "@/app/lib/types";
 
 const jetbrains_400weight = JetBrains_Mono({
   weight: "400",

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { User } from "@/src/lib/types";
+import { User } from "@/app/lib/types";
 import { JetBrains_Mono } from "next/font/google";
 import TextWithSeeMore from '@/ui/text-with-see-more';
 
