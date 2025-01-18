@@ -32,7 +32,7 @@ export default function ChatContainer({
   if (userChats.includes(chatname)) {
     return (
       <p>
-        You are part of this Convo! Your chats: {userChats.join(", ")}
+        You are part of this Convo! Your Convoes: {userChats.join(", ")}
       </p>
     );
   } else {
