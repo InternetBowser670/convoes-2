@@ -1,9 +1,9 @@
 import { getUserChats } from "@/app/lib/funcs/getUserChats";
 import { NextResponse } from "next/server";
+import { auth } from '@clerk/nextjs/server'
 
-export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const userId = url.searchParams.get("userId");
+export async function GET() {
+  const { userId } = await auth()
 
   if (!userId) {
     return NextResponse.json({ error: "User ID is required" }, { status: 400 });

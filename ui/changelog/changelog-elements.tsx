@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.22.1": {
+    "date": "1/17/25",
+    "changes": "Fixed auth bug",
+    "type": "convoes"
+  },
   "0.22.0": {
     "date": "1/17/25",
     "changes": "Made the dashboard sort by users added",
