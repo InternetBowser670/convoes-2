@@ -50,8 +50,8 @@ export default function Page() {
                 method: "GET",
             });
             const data = await response.json();
-            console.log(data.chats)
-            setChatData(data.chats || []);
+            console.log(data.userChats)
+            setChatData(data.userChats || []);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
