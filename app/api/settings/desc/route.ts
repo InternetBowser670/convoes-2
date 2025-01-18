@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
     await client.connect();
     const useProdDB = false;
 
-    await client.connect();
     let db;
     if (useProdDB) {
         db = client.db("InternetBowser-Prod");

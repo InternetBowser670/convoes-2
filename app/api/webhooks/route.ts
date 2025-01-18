@@ -24,9 +24,6 @@ const db = client.db(process.env.MONGODB_DB_NAME)
 const users = db.collection("users")
 
 
-
-
-
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET
 
