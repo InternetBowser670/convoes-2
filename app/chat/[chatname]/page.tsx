@@ -3,10 +3,10 @@ import { jetbrains_400weight } from "@/app/fonts/fonts";
 import ChatContainer from "@/ui/convo/chat-container";
 
 export default async function Page({
-  params,
-}: {
-  params: { chatname: string };
-}) {
+    params,
+  }: {
+    params: Promise<{ chatname: string }>
+  }) {
   const user = await currentUser();
 
   if (!user) {
