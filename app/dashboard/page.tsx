@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { JetBrains_Mono } from "next/font/google";
 import { DashboardChatData } from '@/app/lib/types'
-import { UserGroupIcon } from '@heroicons/react/24/solid';
+import { UserGroupIcon, LinkIcon } from '@heroicons/react/24/solid';
 import { useUser } from '@clerk/nextjs'
+import Link from 'next/link';
 
 const jetbrains_400weight = JetBrains_Mono({
     weight: "400",
@@ -48,7 +49,7 @@ export default function Page() {
 
             const publicChats = data.filter((chat: DashboardChatData) => chat.privacyOption == 'public')
             const privateChats = data.filter((chat: DashboardChatData) => chat.privacyOption == 'private')
-        
+
 
             if (privateChats.length > 0) {
                 setPrivateChatData(privateChats)
@@ -58,7 +59,7 @@ export default function Page() {
                 setPublicChatData(publicChats)
             }
 
-            
+
         } catch (error) {
             console.error('Error fetching data:', error);
             setPublicChatData([])
@@ -93,9 +94,14 @@ export default function Page() {
                                 </div>
                                 <div className={`grid grid-cols-3`}>
                                     {publicChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] flex justify-between rounded-2xl w-[1/4] m-3 p-3 shrink">
-                                        <p>
-                                            {chat.chatName}
-                                        </p>
+                                        <div className={`flex`}>
+                                            <p>
+                                                {chat.chatName}
+                                            </p>
+                                            <Link className='ml-2' href={`/chat/${encodeURIComponent(chat.chatName)}`}>
+                                                <LinkIcon fill='white' stroke='white' className='mr-2' height={"20px"}  />
+                                            </Link>
+                                        </div>
                                         <div className='flex px-2'>
                                             <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
                                             <p> {chat.usersAdded} </p>
@@ -113,9 +119,14 @@ export default function Page() {
                                 </div>
                                 <div className={`grid grid-cols-3`}>
                                     {privateChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink flex justify-between">
-                                        <p>
-                                            {chat.chatName}
-                                        </p>
+                                        <div className={`flex`}>
+                                            <p>
+                                                {chat.chatName}
+                                            </p>
+                                            <Link className='ml-2' href={`/chat/${encodeURIComponent(chat.chatName)}`}>
+                                                <LinkIcon fill='white' stroke='white' className='mr-2' height={"20px"}  />
+                                            </Link>
+                                        </div>
                                         <div className='flex px-2'>
                                             <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
                                             <p> {chat.usersAdded} </p>
