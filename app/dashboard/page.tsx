@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { JetBrains_Mono } from "next/font/google";
 import { DashboardChatData } from '@/app/lib/types'
 import { UserGroupIcon, LinkIcon } from '@heroicons/react/24/solid';
-import { useUser } from '@clerk/nextjs'
+import { useUser, SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
 import Link from 'next/link';
 
 const jetbrains_400weight = JetBrains_Mono({
@@ -69,79 +69,92 @@ export default function Page() {
         }
     };
 
-
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (user) {
+            fetchData();
+        }
+    }, [user]);
+    
+    
 
 
 
     return (
         <div className={`${jetbrains_400weight.className}`}>
-            <h1 className={`${jetbrains_800weight.className} text-3xl`}>
-                {`Welcome, ${user?.username || ""}`}
-            </h1>
-            <br />
-            {isLoading || !publicChatData || !privateChatData ? (
-                <ChatsFallback />
-            ) : (
-                <>
-                    <div className='backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink'>
-                        {
-                            (publicChatData.length > 0) && (<>
-                                <div className='flex content-center justify-center'>
-                                    <p>Public Chats:</p>
-                                </div>
-                                <div className={`grid grid-cols-3`}>
-                                    {publicChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] flex justify-between rounded-2xl w-[1/4] m-3 p-3 shrink">
-                                        <div className={`flex`}>
-                                            <p>
-                                                {chat.chatName}
-                                            </p>
-                                            <Link className='ml-2' href={`/chat/${encodeURIComponent(chat.chatName)}`}>
-                                                <LinkIcon fill='white' stroke='white' className='mr-2' height={"20px"}  />
-                                            </Link>
-                                        </div>
-                                        <div className='flex px-2'>
-                                            <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
-                                            <p> {chat.usersAdded} </p>
-                                        </div>
-
+            <SignedIn>
+                <h1 className={`${jetbrains_800weight.className} text-3xl`}>
+                    {`Welcome, ${user?.username || ""}`}
+                </h1>
+                <br />
+                {isLoading || !publicChatData || !privateChatData ? (
+                    <ChatsFallback />
+                ) : (
+                    <>
+                        <div className='backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink'>
+                            {
+                                (publicChatData.length > 0) && (<>
+                                    <div className='flex content-center justify-center'>
+                                        <p>Public Chats:</p>
                                     </div>
-                                    ))}
-                                </div>
-                            </>)
-                        }
-                        {
-                            (privateChatData.length > 0) && (<>
-                                <div className='flex content-center justify-center'>
-                                    <p>Private Chats:</p>
-                                </div>
-                                <div className={`grid grid-cols-3`}>
-                                    {privateChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink flex justify-between">
-                                        <div className={`flex`}>
-                                            <p>
-                                                {chat.chatName}
-                                            </p>
-                                            <Link className='ml-2' href={`/chat/${encodeURIComponent(chat.chatName)}`}>
-                                                <LinkIcon fill='white' stroke='white' className='mr-2' height={"20px"}  />
-                                            </Link>
+                                    <div className={`grid grid-cols-3`}>
+                                        {publicChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] flex justify-between rounded-2xl w-[1/4] m-3 p-3 shrink">
+                                            <div className={`flex`}>
+                                                <p>
+                                                    {chat.chatName}
+                                                </p>
+                                                <Link className='ml-2' href={`/chat/${encodeURIComponent(chat.chatName)}`}>
+                                                    <LinkIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
+                                                </Link>
+                                            </div>
+                                            <div className='flex px-2'>
+                                                <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
+                                                <p> {chat.usersAdded} </p>
+                                            </div>
+
                                         </div>
-                                        <div className='flex px-2'>
-                                            <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
-                                            <p> {chat.usersAdded} </p>
-                                        </div>
+                                        ))}
                                     </div>
-                                    ))}
-                                </div>
-                            </>)
-                        }
+                                </>)
+                            }
+                            {
+                                (privateChatData.length > 0) && (<>
+                                    <div className='flex content-center justify-center'>
+                                        <p>Private Chats:</p>
+                                    </div>
+                                    <div className={`grid grid-cols-3`}>
+                                        {privateChatData.map((chat: DashboardChatData) => (<div key={chat.chatName} className="backdrop-filter text-white backdrop-blur-md border-white border-2 overflow-hidden max-height-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink flex justify-between">
+                                            <div className={`flex`}>
+                                                <p>
+                                                    {chat.chatName}
+                                                </p>
+                                                <Link className='ml-2' href={`/chat/${encodeURIComponent(chat.chatName)}`}>
+                                                    <LinkIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
+                                                </Link>
+                                            </div>
+                                            <div className='flex px-2'>
+                                                <UserGroupIcon fill='white' stroke='white' className='mr-2' height={"20px"} />
+                                                <p> {chat.usersAdded} </p>
+                                            </div>
+                                        </div>
+                                        ))}
+                                    </div>
+                                </>)
+                            }
 
 
 
-                    </div>
-                </>
-            )}
+                        </div>
+                    </>
+                )}
+
+            </SignedIn>
+
+            <SignedOut>
+                <div className={`${jetbrains_800weight.className} text-3xl`}>
+                    <SignInButton><div className='inline-flex'>Please <p className='mx-3 underline'>sign in</p> to view your dashboard</div></SignInButton>
+                </div>
+            </SignedOut>
+
         </div>
     );
 }

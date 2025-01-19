@@ -14,7 +14,7 @@ export default function ChatContainer({
   useEffect(() => {
     const fetchUserChats = async () => {
       try {
-        const response = await fetch(`/api/getuserchats?userId=${userId}`);
+        const response = await fetch(`/api/getuserchats`);
         const data = await response.json();
         setUserChats(data.userChats);
       } catch (error) {

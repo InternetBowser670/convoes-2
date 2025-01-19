@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
         await client.close()
-        return NextResponse.json({ message: 'Unauthorized' },
+        return NextResponse.json({ message: 'You must sign in to join a Convo' },
             { status: 401 })
     }
 
