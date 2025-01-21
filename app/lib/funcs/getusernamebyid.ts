@@ -24,7 +24,7 @@ export async function getUsernameById(id: string) {
 
   if (!user) {
     await client.close()
-    return "Server Error";
+    return "Deleted User";
   }
 
   await client.close()

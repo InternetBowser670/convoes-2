@@ -68,5 +68,6 @@ export interface MessageDocument {
     message: string;
     sentAt: number;
     image_url?: string;
+    userId?: string;
     username?: string;
 }

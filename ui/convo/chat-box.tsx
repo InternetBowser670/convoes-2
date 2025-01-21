@@ -91,7 +91,7 @@ export function ChatBox({
                                 return (
                                     <div
                                         key={msg._id}
-                                        className="backdrop-filter backdrop-blur-md border-white border-2 overflow-hidden max-h-[100px] rounded-2xl w-[1/4] m-3 p-3 shrink"
+                                        className="backdrop-filter backdrop-blur-md border-white border-2 rounded-2xl w-[1/4] m-3 p-3 shrink"
                                     >
                                         <div className="flex items-center content-center">
                                             <img
@@ -103,13 +103,14 @@ export function ChatBox({
                                                 alt={`${msg.username}'s pfp`}
                                             />
                                             <p className="ml-2">@{msg.username}</p>
+                                            <p className="ml-2 text">- {formatUnixToLocalTime(msg.sentAt)}</p>
                                         </div>
                                         <br />
                                         {msg.message ? (
                                             <p className="text-ellipsis overflow-hidden seeMoreText">{msg.message}</p>
                                         ) : (
                                             <>
-                                                <p>Desc: (N/A)</p>
+                                                <p className='opacity-50'>Blank</p>
                                                 <br />
                                             </>
                                         )}
@@ -130,7 +131,7 @@ export function ChatBox({
                                             <p className="text-ellipsis overflow-hidden seeMoreText">{msg.message}</p>
                                         ) : (
                                             <>
-                                                <p>Desc: (N/A)</p>
+                                                <p className='opacity-50'>Blank</p>
                                                 <br />
                                             </>
                                         )}
