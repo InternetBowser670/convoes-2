@@ -21,7 +21,7 @@ export default async function Page({
 
   return (
     <div className={`${jetbrains_400weight.className}`}>
-      <h1>Welcome to Convo &#34;{chatname}&#34;</h1>
+      <h1 className="text-3xl font-bold">Convo - &#34;{chatname}&#34;</h1>
       <ChatContainer userId={user.id} chatname={chatname} />
     </div>
   );

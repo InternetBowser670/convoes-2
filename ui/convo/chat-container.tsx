@@ -27,7 +27,7 @@ export default function ChatContainer({
   }, [userId]);
 
   if (userChats === null) {
-    return <p>Loading the Convo</p>;
+    return <p>Loading the Convo...</p>;
   }
 
   if (userChats.includes(chatname)) {

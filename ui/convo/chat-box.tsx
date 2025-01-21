@@ -20,6 +20,7 @@ if (useProdUrl) {
     baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2.internetbowser.com"
 }
 
+
 function formatUnixToLocalTime(unixTimestamp: number): string {
     const date = new Date(unixTimestamp); // Convert the timestamp to a Date object
     const options: Intl.DateTimeFormatOptions = {
@@ -42,10 +43,30 @@ export function ChatBox({
     chatname: string;
 }) {
 
+    const [message, setMessage] = useState("")
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const messagesDiv = document.getElementById('messages');
+
+    async function updateMessages() {
+        try {
+            const response = await fetch(`${baseUrl}/api/chatmessages/`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    chatName: chatname,
+                })
+            });
+            const data = await response.json();
+            setData(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+        }
+    };
 
     function scrollToBottom() {
         if (messagesDiv) {
@@ -53,6 +74,48 @@ export function ChatBox({
         }
     }
     scrollToBottom();
+
+    const createChatSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+
+        if (!message) {
+            alert("Please enter a message");
+            return
+        }
+
+        setMessage("");
+        updateMessages();
+
+        fetch(`${baseUrl}/api/sendmessage`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: "POST",
+            body: JSON.stringify({
+                chatName: chatname,
+                message: message,
+            })
+        }).then(async response => {
+            const data = await response.json();
+            if (response.ok) {
+                updateMessages();
+                scrollToBottom();
+                return
+            }
+            if (response.status === 401) {
+                alert("Unauthorized");
+            } else {
+                if (data.message) {
+                    alert(data.message);
+                } else {
+                    alert("Convo Creation Failed");
+                }
+            }
+            updateMessages();
+        })
+
+
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -142,12 +205,12 @@ export function ChatBox({
                     </div>
 
                 )}
-                <div className='relative bottom-0 m-2'>
+                <form onSubmit={createChatSubmit} className='relative bottom-0 m-2'>
                     <label htmlFor='message'>Message:</label>
                     <br />
-                    <input name='message' placeholder='Hi!' className='rounded-xl p-1 w-[94%] text-black focus:outline-none' type="text" id='message'></input >
+                    <input name='message' placeholder='Hi!' onChange={(e) => setMessage(e.target.value)} value={message} className='rounded-xl p-1 w-[94%] text-black focus:outline-none' type="text" id='message'></input >
                     <input name='submit' className='rounded-xl p-1 border-2 ml-2 focus:outline-none w-[5%]' type="submit" id='submit'></input >
-                </div>
+                </form>
             </div>
         </>
 
