@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { MessageDocument } from "@/app/lib/types";
 import { JetBrains_Mono } from "next/font/google";
 
@@ -19,6 +19,22 @@ if (useProdUrl) {
 } else {
     baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2.internetbowser.com"
 }
+
+function formatUnixToLocalTime(unixTimestamp: number): string {
+    const date = new Date(unixTimestamp); // Convert the timestamp to a Date object
+    const options: Intl.DateTimeFormatOptions = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true, // For 12-hour format with AM/PM
+    };
+
+    return new Intl.DateTimeFormat(undefined, options).format(date);
+}
+
+
 
 export function ChatBox({
     chatname,
@@ -106,7 +122,8 @@ export function ChatBox({
                                         className="bg-blue-400 p-3"
                                     >
                                         <div className="flex items-center content-center">
-                                            <p className="ml-2 font-bold">System</p>
+                                            <p className="font-bold">System</p>
+                                            <p className="ml-2 text">- {formatUnixToLocalTime(msg.sentAt)}</p>
                                         </div>
                                         <br />
                                         {msg.message ? (
