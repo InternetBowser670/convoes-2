@@ -23,10 +23,10 @@ export async function POST(request: NextRequest) {
 
 
     let db;
-    if (!useProdDB) {
-        db = client.db(process.env.CONVOES_DB_NAME || "InternetBowser-Convoes-Dev");
-    } else {
+    if (useProdDB) {
         db = client.db("InternetBowser-Convoes-Prod");
+    } else {
+        db = client.db(process.env.CONVOESDBNAME || "InternetBowser-Convoes-Dev");
     }
 
     const chatCollection = db.collection(chatname)
