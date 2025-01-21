@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "createCollectionForAllChatsDev": "node ./updateDb.mjs createCollectionForAllChats false",
+    "createCollectionForAllChatsProd": "node ./updateDb.mjs createCollectionForAllChats true"
   },
   "dependencies": {
     "@2toad/profanity": "^3.1.1",
@@ -25,6 +27,7 @@
     "npm": "^11.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "readline": "^1.3.0",
     "svix": "^1.44.0"
   },
   "devDependencies": {

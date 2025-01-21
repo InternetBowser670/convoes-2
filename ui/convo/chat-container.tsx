@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { ChatBox } from "./chat-box";
 
 export default function ChatContainer({
   userId,
@@ -26,14 +27,13 @@ export default function ChatContainer({
   }, [userId]);
 
   if (userChats === null) {
-    return <p>Loading your chats...</p>;
+    return <p>Loading the Convo</p>;
   }
 
   if (userChats.includes(chatname)) {
     return (
-      <p>
-        You are part of this Convo! Your Convoes: {userChats.join(", ")}
-      </p>
+      <><ChatBox chatname={chatname} /></>
+
     );
   } else {
     return <p>You are not part of this Convo</p>;

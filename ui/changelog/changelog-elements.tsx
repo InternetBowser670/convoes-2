@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "0.23": {
+    "date": "1/18/25",
+    "changes": "Added a box to each Convo that displays its content",
+    "type": "convoes"
+  },
   "0.22.3": {
     "date": "1/18/25",
     "changes": "Made the dashboard display some information if you are not signed in",

@@ -35,27 +35,30 @@ export async function POST(req: NextRequest) {
             { status: 401 })
     }
 
-    const chats = db.collection("chats");
-    const users = db.collection("users");
-
     const body = await new Response(req.body).json();
 
     const chatName = body.chatName;
     const privacyOption = body.privacyOption;
     const chatPassword = body.chatPassword;
     const chatDesc = body.chatDesc || `Welcome to ${chatName}`;
+    const currentTime = Date.now()
+
+    const chats = db.collection("chats");
+    const users = db.collection("users");
+    const chatCollection = db.collection(chatName);
 
     const existingDocument = await chats.findOne({ chatName: chatName });
 
     if (!existingDocument) {
         //NESTED IF STATEMENTS??? (dont hate me)
         if (privacyOption == 'public') {
-            chats.insertOne({ chatName, members: [user.id], privacyOption, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: 1 } as ChatDocument)
+            chats.insertOne({ chatName, members: [user.id], privacyOption, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: 1, createdAt: currentTime } as ChatDocument)
         } else if (privacyOption == 'private') {
-            chats.insertOne({ chatName, privacyOption, members: [ user.id ], chatPassword, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: 1 } as ChatDocument)
+            chats.insertOne({ chatName, privacyOption, members: [ user.id ], chatPassword, chatDesc, createdById: user.id, ownerId: user.id, usersAdded: 1, createdAt: currentTime } as ChatDocument)
         }
         await users.updateOne({ id: user.id },
             { $push: { chats: chatName }});
+        await chatCollection.insertOne({type: "sysMessage", message: `This is the beginning of Convo "${chatName}"`, sentAt: currentTime})
     } else {
         await client.close()
         return NextResponse.json({ message: 'Convo already exists with that name' },

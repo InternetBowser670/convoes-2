@@ -16,14 +16,15 @@ export interface ChatDocument {
     createdById: string;
     ownerId: string;
     usersAdded: number;
+    createdAt: number;
 }
 
 export interface DashboardChatData {
     chatName: string;
     privacyOption: string;
     usersAdded: number;
-  }
-  
+}
+
 
 export interface Chat {
     _id: string;
@@ -59,4 +60,13 @@ export interface SeeMoreProps {
     text: string;
     maxLength: number;
     className: string;
+}
+
+export interface MessageDocument {
+    _id: string;
+    type: string;
+    message: string;
+    sentAt: number;
+    image_url?: string;
+    username?: string;
 }
