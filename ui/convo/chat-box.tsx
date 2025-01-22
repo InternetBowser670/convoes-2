@@ -116,6 +116,18 @@ export function ChatBox({
         };
     
         try {
+
+            // Sync message with MongoDB
+            await fetch(`${baseUrl}/api/sendmessage`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newMessage),
+            });
+
+            scrollToBottom()
+
             // Send message via SSE
             const sseResponse = await fetch(`/api/sse/chat/${chatname}`, {
                 method: "POST",
@@ -131,18 +143,9 @@ export function ChatBox({
     
             setMessage("");
             scrollToBottom();
-    
-            // Sync message with MongoDB
-            await fetch(`${baseUrl}/api/sendmessage`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newMessage),
-            });
         } catch (e) {
             console.log(e)
-            alert("Message failed to sync: ");
+            alert("Message failed to sync");
         }
     };
     
