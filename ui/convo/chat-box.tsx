@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { MessageDocument } from "@/app/lib/types";
 import { JetBrains_Mono } from "next/font/google";
+import { useUser } from '@clerk/nextjs'
 
 const jetbrains_400weight = JetBrains_Mono({
     weight: "400",
@@ -44,10 +45,12 @@ export function ChatBox({
 }) {
 
     const [message, setMessage] = useState("")
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<MessageDocument[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const messagesDiv = document.getElementById('messages');
+
+    const {user} = useUser()
 
     async function updateMessages() {
         try {
@@ -78,13 +81,22 @@ export function ChatBox({
     const createChatSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
+        const date = () => Date.now();
+
         if (!message) {
             alert("Please enter a message");
             return
         }
 
+        scrollToBottom()
+
+        setData([...data, { message: message, _id: (date() * Math.random()).toString(), type: "textMessage", sentAt: date(), username: user?.username || "N/A", image_url: user?.imageUrl || "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycGw2MWhCQlZzTEJPeVpPMDJmUkQ2TExoQzQiLCJyaWQiOiJ1c2VyXzJySmtnVW05WVU3R21PclFrVXZLNTFMS3BWaiJ9" }]);
+        scrollToBottom()
+
+        
+
         setMessage("");
-        updateMessages();
+        scrollToBottom()
 
         fetch(`${baseUrl}/api/sendmessage`, {
             headers: {
@@ -97,8 +109,8 @@ export function ChatBox({
             })
         }).then(async response => {
             const data = await response.json();
+            updateMessages();
             if (response.ok) {
-                updateMessages();
                 scrollToBottom();
                 return
             }
@@ -111,7 +123,6 @@ export function ChatBox({
                     alert("Convo Creation Failed");
                 }
             }
-            updateMessages();
         })
 
 
@@ -149,7 +160,7 @@ export function ChatBox({
                     <MsgsFallback />
                 ) : (
                     <div id="messages" className="h-[500px] overflow-y-scroll">
-                        {data.map((msg: MessageDocument) => {
+                        {data.sort((a, b) => a.sentAt - b.sentAt).map((msg: MessageDocument) => {
                             if (msg.type === "textMessage") {
                                 return (
                                     <div
