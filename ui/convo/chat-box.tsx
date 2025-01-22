@@ -22,6 +22,7 @@ if (useProdUrl) {
 }
 
 
+
 function formatUnixToLocalTime(unixTimestamp: number): string {
     const date = new Date(unixTimestamp);
     const options: Intl.DateTimeFormatOptions = {
@@ -37,7 +38,6 @@ function formatUnixToLocalTime(unixTimestamp: number): string {
 }
 
 
-
 export function ChatBox({
     chatname,
 }: {
@@ -51,6 +51,26 @@ export function ChatBox({
     const messagesDiv = document.getElementById('messages');
 
     const { user } = useUser()
+
+    useEffect(() => {
+        const eventSource = new EventSource(`/api/sse/chat/${chatname}`);
+        eventSource.onmessage = (event) => {
+            const incomingMessage = JSON.parse(event.data);
+            setData((prevData) => [...prevData, incomingMessage]);
+            scrollToBottom();
+        };
+    
+        eventSource.onerror = () => {
+            alert('Messages will not be synced automatically because of a connection issue');
+        };
+    
+        return () => eventSource.close();
+    }, []);
+    
+
+    
+
+
 
     async function updateMessages() {
         try {
@@ -78,55 +98,54 @@ export function ChatBox({
     }
     scrollToBottom();
 
-    const sendMessage = (event: { preventDefault: () => void; }) => {
+    const sendMessage = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
-
-        const date = () => Date.now();
-
+    
         if (!message) {
             alert("Please enter a message");
-            return
+            return;
         }
-
-        scrollToBottom()
-
-        setData([...data, { message: message, _id: (date() * Math.random()).toString(), type: "textMessage", sentAt: date(), username: user?.username || "N/A", image_url: user?.imageUrl || "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycGw2MWhCQlZzTEJPeVpPMDJmUkQ2TExoQzQiLCJyaWQiOiJ1c2VyXzJySmtnVW05WVU3R21PclFrVXZLNTFMS3BWaiJ9" }]);
-        scrollToBottom()
-
-
-
-        setMessage("");
-        scrollToBottom()
-
-        fetch(`${baseUrl}/api/sendmessage`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: "POST",
-            body: JSON.stringify({
-                chatName: chatname,
-                message: message,
-            })
-        }).then(async response => {
-            const data = await response.json();
-            scrollToBottom()
-            if (response.ok) {
-                scrollToBottom();
-                return
+    
+        const newMessage = {
+            content: message,
+            chatName: chatname,
+            type: 'textMessage',
+            sentAt: Date.now(),
+            username: user?.username || "N/A",
+            image_url: user?.imageUrl || "https://img.clerk.com/default-pfp.png",
+        };
+    
+        try {
+            // Send message via SSE
+            const sseResponse = await fetch(`/api/sse/chat/${chatname}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newMessage),
+            });
+    
+            if (!sseResponse.ok) {
+                throw new Error("Failed to broadcast message via SSE");
             }
-            if (response.status === 401) {
-                alert("Unauthorized");
-            } else {
-                if (data.message) {
-                    alert(data.message);
-                } else {
-                    alert("Convo Creation Failed");
-                }
-            }
-        })
-
-
-    }
+    
+            setMessage("");
+            scrollToBottom();
+    
+            // Sync message with MongoDB
+            await fetch(`${baseUrl}/api/sendmessage`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newMessage),
+            });
+        } catch (e) {
+            console.log(e)
+            alert("Message failed to sync: ");
+        }
+    };
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -199,6 +218,7 @@ export function ChatBox({
                     <MsgsFallback />
                 ) : (
                     <div id="messages" className="h-[550px] overflow-y-scroll">
+                        
                         {groupedData.map((group, groupIndex) => {
                             const isSystemMessage = group[0].type === "sysMessage";
 
