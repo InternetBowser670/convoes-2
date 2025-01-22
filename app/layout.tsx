@@ -5,7 +5,6 @@ import { Analytics } from "@vercel/analytics/react"
 import { ClerkProvider } from '@clerk/nextjs'
 import Navbar from "@/ui/navbar/navbar";
 import { dark } from '@clerk/themes'
-import VersionName from '@/ui/version-name'
 import { ConfigProvider } from 'antd';
 
 export const metadata: Metadata = {
@@ -41,19 +40,14 @@ export default function RootLayout({
             <Navbar />
             <br />
             <br />
-            <div className="flex-grow flex flex-col">
-              <div className="flex-grow">
-                <main className="h-full">
+            <br />
+            <div className="flex flex-col">
+              <div className="">
+                <main className="h-[95%]">
                   {children}
                 </main>
               </div>
-              <br />
-              <br />
-              <div className="flex-grow-0 flex items-center justify-center">
-                <footer className="relative bottom-0 w-full rounded-xl flex flex-row justify-between items-center">
-                  <VersionName />
-                </footer>
-              </div>
+              
             </div>
             <Analytics />
             <SpeedInsights />

@@ -10,7 +10,7 @@ export default function VersionName() {
     <>
       <h1
         className={
-          "text-md truncate relative bottom-8 text-ellipsis text-slate-400" +
+          "text-md truncate text-ellipsis text-slate-400" +
           " " +
           jetbrains_400weight.className
         }

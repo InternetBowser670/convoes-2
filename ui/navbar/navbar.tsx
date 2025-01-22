@@ -31,7 +31,7 @@ export default function Navbar() {
         <>
 
             <div className={jetbrains_800weight.className +
-                " " + "flex sm:flex w-full justify-center mb-5 overflow-hidden"}>
+                " " + "flex sm:flex w-full justify-center h-0 mb-5 overflow-hidden"}>
                 <div className="backdrop-filter backdrop-blur-md fixed z-10 justify-center border-solid rounded-2xl min-w-500 flex content-center h-9 m-5 p-5 border-white border-2">
                     <div className="relative bottom-4 flex flex-row w-15 h-8">
                         <div className="flex justify-center">
