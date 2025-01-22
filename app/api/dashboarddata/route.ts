@@ -40,7 +40,7 @@ export async function GET() {
   const userDoc = await users.findOne( { id: user.id } )
 
   if (!userDoc) {
-    await client.close
+    await client.close()
     return NextResponse.json({ status: 401 });
   }
 
