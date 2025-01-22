@@ -65,6 +65,7 @@ export function ChatBox({
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
+            scrollToBottom();
         }
     };
 
@@ -84,8 +85,6 @@ export function ChatBox({
         }
 
         try {
-
-            // Sync message with MongoDB
             await fetch(`${baseUrl}/api/sendmessage`, {
                 method: "POST",
                 headers: {
@@ -122,7 +121,12 @@ export function ChatBox({
                     })
                 });
                 const data = await response.json();
-                setData(data);
+                if (response.ok) {
+                    setData(data);
+                } else {
+                    setData([{"_id":"678fb8423a1c3c7273d66b3d","type":"sysMessage","message":"Sorry, this Convo isn't working. If this issue persists, please contact me","userId":"user_2qLR6zXai9y0F0CHQ7RhwERiFiy","username":"InternetBowser","sentAt": 1737463817061.0}]);
+                }
+                
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
