@@ -41,15 +41,15 @@ export default function Page() {
                             ),
                         },
                         {
-                            color: 'yellow',
+                            color: 'green',
                             children: (
                                 <>
-                                    <p className="text-3xl">Add chat messaging functionality (Jan 2025)</p>
+                                    <p className="text-3xl">Add chat messaging functionality</p>
                                 </>
                             ),
                         },
                         {
-                            color: 'white',
+                            color: 'yellow',
                             children: (
                                 <>
                                     <p className="text-3xl" >Add badges </p>

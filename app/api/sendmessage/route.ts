@@ -63,5 +63,6 @@ export async function POST(req: NextRequest) {
 
     await chatCollection.insertOne({type: "textMessage", message: message, userId: user.id, imageUrl: user.imageUrl, username: user.username, sentAt: currentTime})
 
+    await client.close()
     return NextResponse.json({ status: 200 })
 }

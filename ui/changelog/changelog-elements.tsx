@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "1.0.0": {
+    "date": "1/22/25",
+    "changes": "Made Convoes update automatically",
+    "type": "convoes"
+  },
   "0.26.0": {
     "date": "1/22/25",
     "changes": "Added a button to update the messages",

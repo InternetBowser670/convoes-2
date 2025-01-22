@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { MessageDocument } from "@/app/lib/types";
 import { JetBrains_Mono } from "next/font/google";
-import { useUser } from '@clerk/nextjs'
 
 const jetbrains_400weight = JetBrains_Mono({
     weight: "400",
@@ -50,28 +49,6 @@ export function ChatBox({
 
     const messagesDiv = document.getElementById('messages');
 
-    const { user } = useUser()
-
-    useEffect(() => {
-        const eventSource = new EventSource(`/api/sse/chat/${chatname}`);
-        eventSource.onmessage = (event) => {
-            const incomingMessage = JSON.parse(event.data);
-            setData((prevData) => [...prevData, incomingMessage]);
-            scrollToBottom();
-        };
-    
-        eventSource.onerror = () => {
-            alert('Messages will not be synced automatically because of a connection issue');
-        };
-    
-        return () => eventSource.close();
-    }, []);
-    
-
-    
-
-
-
     async function updateMessages() {
         try {
             const response = await fetch(`${baseUrl}/api/chatmessages/`, {
@@ -100,21 +77,12 @@ export function ChatBox({
 
     const sendMessage = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
-    
+
         if (!message) {
             alert("Please enter a message");
             return;
         }
-    
-        const newMessage = {
-            content: message,
-            chatName: chatname,
-            type: 'textMessage',
-            sentAt: Date.now(),
-            username: user?.username || "N/A",
-            image_url: user?.imageUrl || "https://img.clerk.com/default-pfp.png",
-        };
-    
+
         try {
 
             // Sync message with MongoDB
@@ -123,24 +91,14 @@ export function ChatBox({
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newMessage),
+                body: JSON.stringify({
+                    chatName: chatname,
+                    message: message,
+                }),
             });
 
             scrollToBottom()
 
-            // Send message via SSE
-            const sseResponse = await fetch(`/api/sse/chat/${chatname}`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newMessage),
-            });
-    
-            if (!sseResponse.ok) {
-                throw new Error("Failed to broadcast message via SSE");
-            }
-    
             setMessage("");
             scrollToBottom();
         } catch (e) {
@@ -148,7 +106,7 @@ export function ChatBox({
             alert("Message failed to sync");
         }
     };
-    
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -173,6 +131,7 @@ export function ChatBox({
         };
 
         fetchData();
+        setInterval(updateMessages, 1000);
     }, []);
 
     const GROUP_THRESHOLD_MS = 5 * 60 * 1000; //5s
@@ -221,7 +180,7 @@ export function ChatBox({
                     <MsgsFallback />
                 ) : (
                     <div id="messages" className="h-[550px] overflow-y-scroll">
-                        
+
                         {groupedData.map((group, groupIndex) => {
                             const isSystemMessage = group[0].type === "sysMessage";
 
@@ -325,7 +284,7 @@ function MsgsFallback() {
 }
 
 function TemplateMsg() {
-    return (<div className="backdrop-filter backdrop-blur-md border-white border-2 skeleton rounded-2xl w-[1/4] m-3 p-3 shrink">
+    return (<div className="backdrop-filter backdrop-blur-md skeleton w-[1/4] p-3 shrink">
         <div className="flex items-center content-center">
             <div className="rounded-full skeleton-avatar bg-red-500 pfp">
                 <div className="glimmer-line"></div>
