@@ -9,8 +9,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const chatname = body.chatName;
 
-    //console.log(getIconById("user_2qLR6zXai9y0F0CHQ7RhwERiFiy"))
-
     const uri = process.env.MONGODB_URI || "lol ggs";
     const client = new MongoClient(uri, {
         tls: true,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { MessageDocument } from "@/app/lib/types";
 import { JetBrains_Mono } from "next/font/google";
 import { useUser } from '@clerk/nextjs'
@@ -23,14 +23,14 @@ if (useProdUrl) {
 
 
 function formatUnixToLocalTime(unixTimestamp: number): string {
-    const date = new Date(unixTimestamp); // Convert the timestamp to a Date object
+    const date = new Date(unixTimestamp);
     const options: Intl.DateTimeFormatOptions = {
         year: "numeric",
         month: "numeric",
         day: "numeric",
         hour: "numeric",
         minute: "numeric",
-        hour12: true, // For 12-hour format with AM/PM
+        hour12: true,
     };
 
     return new Intl.DateTimeFormat(undefined, options).format(date);
@@ -50,7 +50,7 @@ export function ChatBox({
 
     const messagesDiv = document.getElementById('messages');
 
-    const {user} = useUser()
+    const { user } = useUser()
 
     async function updateMessages() {
         try {
@@ -78,7 +78,7 @@ export function ChatBox({
     }
     scrollToBottom();
 
-    const createChatSubmit = (event: { preventDefault: () => void; }) => {
+    const sendMessage = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
         const date = () => Date.now();
@@ -93,7 +93,7 @@ export function ChatBox({
         setData([...data, { message: message, _id: (date() * Math.random()).toString(), type: "textMessage", sentAt: date(), username: user?.username || "N/A", image_url: user?.imageUrl || "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycGw2MWhCQlZzTEJPeVpPMDJmUkQ2TExoQzQiLCJyaWQiOiJ1c2VyXzJySmtnVW05WVU3R21PclFrVXZLNTFMS3BWaiJ9" }]);
         scrollToBottom()
 
-        
+
 
         setMessage("");
         scrollToBottom()
@@ -109,7 +109,7 @@ export function ChatBox({
             })
         }).then(async response => {
             const data = await response.json();
-            updateMessages();
+            scrollToBottom()
             if (response.ok) {
                 scrollToBottom();
                 return
@@ -153,83 +153,143 @@ export function ChatBox({
         fetchData();
     }, []);
 
+    const GROUP_THRESHOLD_MS = 5 * 60 * 1000; //5s
+
+    const groupedData = useMemo(() => {
+        // group adjacent messages by user and time
+        return data
+            .sort((a, b) => a.sentAt - b.sentAt)
+            .reduce((groups, msg, index) => {
+                if (index === 0 || msg.type === "sysMessage") {
+                    groups.push([msg]); // start a new group for sysMessages or the first message
+                } else {
+                    const lastGroup = groups[groups.length - 1];
+                    const lastMessage = lastGroup[lastGroup.length - 1];
+
+                    if (
+                        msg.type === "textMessage" &&
+                        lastMessage.type === "textMessage" &&
+                        msg.userId === lastMessage.userId &&
+                        msg.sentAt - lastMessage.sentAt < GROUP_THRESHOLD_MS
+                    ) {
+                        lastGroup.push(msg);
+                    } else {
+                        groups.push([msg]);
+                    }
+                }
+                return groups;
+            }, [] as MessageDocument[][]);
+    }, [data]);
+
+
     return (
         <>
-            <div className={`border-2 rounded-2xl m-20 mt-10 overflow-hidden ${jetbrains_400weight.className}`}>
+            <div className="flex justify-end px-20">
+                <button
+                    onClick={updateMessages}
+                    className={`border-white ml-2 hover:text-blue-700 hover:bg-white rounded-2xl text-sm border-2 px-2 p-[2]`}
+                >
+                    Update
+                </button>
+            </div>
+            <div
+                className={`border-2 backdrop-filter backdrop-blur-md rounded-2xl m-10 mt-10 overflow-hidden ${jetbrains_400weight.className}`}
+            >
                 {isLoading ? (
                     <MsgsFallback />
                 ) : (
-                    <div id="messages" className="h-[500px] overflow-y-scroll">
-                        {data.sort((a, b) => a.sentAt - b.sentAt).map((msg: MessageDocument) => {
-                            if (msg.type === "textMessage") {
-                                return (
-                                    <div
-                                        key={msg._id}
-                                        className="backdrop-filter backdrop-blur-md border-white border-2 rounded-2xl w-[1/4] m-3 p-3 shrink"
-                                    >
+                    <div id="messages" className="h-[550px] overflow-y-scroll">
+                        {groupedData.map((group, groupIndex) => {
+                            const isSystemMessage = group[0].type === "sysMessage";
+
+                            if (isSystemMessage) {
+                                return group.map((msg) => (
+                                    <div key={msg._id} className="bg-blue-400 p-3">
                                         <div className="flex items-center content-center">
-                                            <img
-                                                src={
-                                                    msg.image_url ||
-                                                    "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycGw2MWhCQlZzTEJPeVpPMDJmUkQ2TExoQzQiLCJyaWQiOiJ1c2VyXzJxWDQyMERNZno2RHFnbkJTckQxWGowbFpxUiIsImluaXRpYWxzIjoiQVgifQ"
-                                                }
-                                                className="rounded-full pfp"
-                                                alt={`${msg.username}'s pfp`}
-                                            />
-                                            <p className="ml-2">@{msg.username}</p>
-                                            <p className="ml-2 text">- {formatUnixToLocalTime(msg.sentAt)}</p>
+                                            <p className="font-bold">System</p>
+                                            <p className="ml-2 text">
+                                                - {formatUnixToLocalTime(msg.sentAt)}
+                                            </p>
                                         </div>
                                         <br />
                                         {msg.message ? (
                                             <p className="text-ellipsis overflow-hidden seeMoreText">{msg.message}</p>
                                         ) : (
                                             <>
-                                                <p className='opacity-50'>Blank</p>
+                                                <p className="opacity-50">Blank</p>
                                                 <br />
                                             </>
                                         )}
                                     </div>
-                                );
-                            } else if (msg.type === "sysMessage") {
+                                ));
+                            } else {
                                 return (
-                                    <div
-                                        key={msg._id}
-                                        className="bg-blue-400 p-3"
-                                    >
-                                        <div className="flex items-center content-center">
-                                            <p className="font-bold">System</p>
-                                            <p className="ml-2 text">- {formatUnixToLocalTime(msg.sentAt)}</p>
+                                    <div key={groupIndex} className="mb-4">
+                                        {/* Render the first message with user info */}
+                                        <div className="rounded-2xl w-[1/4] p-2 shrink">
+                                            <div className="flex items-center content-center">
+                                                <img
+                                                    src={
+                                                        group[0].image_url ||
+                                                        "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycGw2MWhCQlZzTEJPeVpPMDJmUkQ2TExoQzQiLCJyaWQiOiJ1c2VyXzJxWDQyMERNZno2RHFnbkJTckQxWGowbFpxUiIsImluaXRpYWxzIjoiQVgifQ"
+                                                    }
+                                                    className="rounded-full pfp"
+                                                    alt={`${group[0].username}'s pfp`}
+                                                />
+                                                <p className="ml-2">@{group[0].username}</p>
+                                                <p className="ml-2 text">
+                                                    - {formatUnixToLocalTime(group[0].sentAt)}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <br />
-                                        {msg.message ? (
-                                            <p className="text-ellipsis overflow-hidden seeMoreText">{msg.message}</p>
-                                        ) : (
-                                            <>
-                                                <p className='opacity-50'>Blank</p>
-                                                <br />
-                                            </>
-                                        )}
+                                        {/* Render the rest of the group's messages without user info */}
+                                        {group.map((msg) => (
+                                            <div
+                                                key={msg._id}
+                                                className={`rounded-2xl w-[1/4] p-2 shrink ml-10`}
+                                            >
+                                                {msg.message ? (
+                                                    <p className="text-ellipsis overflow-hidden seeMoreText">
+                                                        {msg.message}
+                                                    </p>
+                                                ) : (
+                                                    <p className="opacity-50">Blank</p>
+                                                )}
+                                            </div>
+                                        ))}
                                     </div>
                                 );
                             }
                         })}
                     </div>
-
                 )}
-                <form onSubmit={createChatSubmit} className='relative bottom-0 m-2'>
-                    <label htmlFor='message'>Message:</label>
+                <form onSubmit={sendMessage} className="relative border-t-2 bottom-0 p-2">
+                    <label htmlFor="message">Message:</label>
                     <br />
-                    <input name='message' placeholder='Hi!' onChange={(e) => setMessage(e.target.value)} value={message} className='rounded-xl p-1 w-[94%] text-black focus:outline-none' type="text" id='message'></input >
-                    <input name='submit' className='rounded-xl p-1 border-2 ml-2 focus:outline-none w-[5%]' type="submit" id='submit'></input >
+                    <input
+                        name="message"
+                        placeholder="Hi!"
+                        onChange={(e) => setMessage(e.target.value)}
+                        value={message}
+                        className="rounded-xl p-1 w-[94%] text-black focus:outline-none"
+                        type="text"
+                        id="message"
+                    />
+                    <input
+                        name="submit"
+                        className="rounded-xl p-1 border-2 ml-2 focus:outline-none w-[5%]"
+                        type="submit"
+                        id="submit"
+                    />
                 </form>
             </div>
         </>
-
     );
+
 }
 
 function MsgsFallback() {
-    const userPlaceholders = 12;
+    const userPlaceholders = 3;
     return (<>
         <div className={`${jetbrains_400weight.className}`}>
             {Array.from({ length: userPlaceholders }, (_, index) => (
