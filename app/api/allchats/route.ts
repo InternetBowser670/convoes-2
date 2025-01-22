@@ -44,6 +44,6 @@ export async function GET() {
     })
   );
   
-  await client.close
+  await client.close()
   return NextResponse.json(serializedChats);
 }

@@ -88,3 +88,5 @@ async function createCollectionForAllChats() {
 if (func == 'createCollectionForAllChats') {
     createCollectionForAllChats();
 }
+
+await client.close()
