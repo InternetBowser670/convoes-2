@@ -28,7 +28,7 @@ export async function getChatData(chatName: string) {
   const chatDoc = await users.findOne( { chatName } )
 
   if (!chatDoc) {
-    await client.close
+    await client.close()
     return
   }
 
