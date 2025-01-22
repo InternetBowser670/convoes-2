@@ -44,7 +44,7 @@ export async function GET() {
     return NextResponse.json({ status: 401 });
   }
 
-  const userChats = await userDoc.chats.sort((a: ChatDocument, b: ChatDocument) => b.usersAdded - a.usersAdded)
+  const userChats = await userDoc.chats.toArray().sort((a: ChatDocument, b: ChatDocument) => b.usersAdded - a.usersAdded)
 
   for (let i = 0; i < userChats.length; i++) {
     dashboardData.push(await getChatData(userChats[i]))
