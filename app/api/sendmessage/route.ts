@@ -59,6 +59,8 @@ export async function POST(req: NextRequest) {
         await client.close()
         return NextResponse.json({ message: 'You are not part of that Convo' },
             { status: 400 })
+    } else {
+        await users.updateOne({id: user.id}, {$inc: { messagesSent: 1 }})
     }
 
     await chatCollection.insertOne({type: "textMessage", message: message, userId: user.id, imageUrl: user.imageUrl, username: user.username, sentAt: currentTime})
