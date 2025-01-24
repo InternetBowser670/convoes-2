@@ -60,8 +60,11 @@ export function ChatBox({
                     chatName: chatname,
                 })
             });
-            const data = await response.json();
-            setData(data);
+            const requestData = await response.json();
+            setData(requestData);
+            if (requestData != data) {
+                scrollToBottom
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
