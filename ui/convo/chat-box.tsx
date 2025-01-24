@@ -62,7 +62,7 @@ export function ChatBox({
             });
             const requestData = await response.json();
             setData(requestData);
-            if (requestData != data) {
+            if (requestData.length != data.length) {
                 scrollToBottom();
             }
         } catch (error) {
