@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { connectToDatabases } from "../../lib/mongodb";
 import { currentUser } from "@clerk/nextjs/server";
 import { ChatDocument } from '@/app/lib/types'
 
@@ -7,30 +7,13 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
 
-    const uri = process.env.MONGODB_URI || "lol ggs";
-    const client = new MongoClient(uri, {
-        tls: true,
-        serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true,
-        },
-    });
-
-    await client.connect();
     const useProdDB = false;
 
-    let db;
-    if (useProdDB) {
-        db = client.db("InternetBowser-Prod");
-    } else {
-        db = client.db(process.env.MONGODB_DB_NAME);
-    }
+    const { mainDb } = await connectToDatabases(useProdDB);
 
     const user = await currentUser();
 
     if (!user) {
-        await client.close()
         return NextResponse.json({ message: 'Unauthorized' },
             { status: 401 })
     }
@@ -43,9 +26,9 @@ export async function POST(req: NextRequest) {
     const chatDesc = body.chatDesc || `Welcome to ${chatName}`;
     const currentTime = Date.now()
 
-    const chats = db.collection("chats");
-    const users = db.collection("users");
-    const chatCollection = db.collection(chatName);
+    const chats = mainDb.collection("chats");
+    const users = mainDb.collection("users");
+    const chatCollection = mainDb.collection(chatName);
 
     const existingDocument = await chats.findOne({ chatName: chatName });
 
@@ -60,12 +43,10 @@ export async function POST(req: NextRequest) {
             { $push: { chats: chatName }});
         await chatCollection.insertOne({type: "sysMessage", message: `This is the beginning of Convo "${chatName}"`, sentAt: currentTime})
     } else {
-        await client.close()
         return NextResponse.json({ message: 'Convo already exists with that name' },
             { status: 400 })
     }
 
-    await client.close()
     return (NextResponse.json({ message: 'Success' },
         { status: 200 }))
 

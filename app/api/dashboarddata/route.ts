@@ -1,10 +1,12 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
+import { connectToDatabases } from "../../lib/mongodb";
 import { getChatData } from '@/app/lib/funcs/getChatData'
 import { ChatDocument } from "@/app/lib/types";
 
 export const dynamic = 'force-dynamic';
+
+export const maxDuration = 15;
 
 export async function GET() {
 
@@ -16,31 +18,14 @@ export async function GET() {
     return NextResponse.json({ status: 401 });
   }
 
-  const uri = process.env.MONGODB_URI || "lol ggs";
-  const client = new MongoClient(uri, {
-    tls: true,
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    },
-  });
-
-  await client.connect();
   const useProdDB = false;
 
-  let db;
-  if (useProdDB) {
-    db = client.db("InternetBowser-Prod");
-  } else {
-    db = client.db(process.env.MONGODB_DB_NAME);
-  }
+  const { mainDb } = await connectToDatabases(useProdDB);
 
-  const users = db.collection("users");
+  const users = mainDb.collection("users");
   const userDoc = await users.findOne( { id: user.id } )
 
   if (!userDoc) {
-    await client.close()
     return NextResponse.json({ status: 401 });
   }
 
@@ -62,7 +47,5 @@ export async function GET() {
     return bUsers - aUsers;
   });
   
-
-  await client.close();
   return NextResponse.json(dashboardData);
 }

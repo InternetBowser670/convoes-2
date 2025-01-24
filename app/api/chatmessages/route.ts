@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { connectToDatabases } from "../../lib/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 import { getUsernameById } from '@/app/lib/funcs/getusernamebyid'
 
@@ -9,30 +9,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const chatname = body.chatName;
 
-    const uri = process.env.MONGODB_URI || "lol ggs";
-    const client = new MongoClient(uri, {
-        tls: true,
-        serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true,
-        },
-    });
-
-    await client.connect();
     const useProdDB = false;
 
 
-    let db;
-    if (useProdDB) {
-        db = client.db("InternetBowser-Convoes-Prod");
-    } else {
-        db = client.db(process.env.CONVOESDBNAME || "InternetBowser-Convoes-Dev");
-    }
+    const { convoesDb } = await connectToDatabases(useProdDB);
 
-    const chatCollection = db.collection(chatname)
+    const chatCollection = convoesDb.collection(chatname)
 
     const messages = await chatCollection.find().sort({createdAt: 1}).toArray();
+
     
 
     const serializedUsers = await Promise.all(
@@ -47,6 +32,5 @@ export async function POST(request: NextRequest) {
         }))
     )
 
-    await client.close()
     return NextResponse.json(serializedUsers);
 }

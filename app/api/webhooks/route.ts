@@ -1,27 +1,14 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
-import {  WebhookEvent } from '@clerk/nextjs/server'
+import { connectToDatabases } from "../../lib/mongodb";
+import { WebhookEvent } from '@clerk/nextjs/server'
 
-import { MongoClient, ServerApiVersion } from 'mongodb'
-const uri = process.env.MONGODB_URI || "lol ggs";
+const useProdDB = false; 
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  tls: true, // Enforce TLS
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+const { mainDb } = await connectToDatabases(useProdDB);
 
 
-
-
-await client.connect(); 
-
-const db = client.db(process.env.MONGODB_DB_NAME)
-const users = db.collection("users")
+const users = mainDb.collection("users")
 
 
 export async function POST(req: Request) {
@@ -42,7 +29,6 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    await client.close()
     return new Response('Error: Missing Svix headers', {
       status: 400,
     })
@@ -63,7 +49,6 @@ export async function POST(req: Request) {
     }) as WebhookEvent
   } catch (err) {
     console.error('Error: Could not verify webhook:', err)
-    await client.close()
     return new Response('Error: Verification error', {
       status: 400,
     })
@@ -86,11 +71,9 @@ export async function POST(req: Request) {
     }
   } catch (error) {
     console.error("Error updating mongo:", error);
-    await client.close()
     return new Response("Error updating mongo", { status: 500 });
   }
 
 
-  await client.close()
   return new Response('Webhook received', { status: 200 })
 }

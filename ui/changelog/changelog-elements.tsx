@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "1.0.1": {
+    "date": "1/24/25",
+    "changes": "Refactored the code so that the database uses a singleton, reducing the amount of connections that I have to make",
+    "type": "convoes"
+  },
   "1.0.0": {
     "date": "1/22/25",
     "changes": "Made Convoes update automatically",

@@ -1,43 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MongoClient, ServerApiVersion } from "mongodb";
 import { currentUser } from "@clerk/nextjs/server";
 import { ChatDocument } from '@/app/lib/types'
+import { connectToDatabases } from "../../lib/mongodb";
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
 
-    const uri = process.env.MONGODB_URI || "lol ggs";
-    const client = new MongoClient(uri, {
-        tls: true,
-        serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true,
-        },
-    });
+
 
 
     const useProdDB = false;
 
-    await client.connect();
-    let db;
-    if (useProdDB) {
-        db = client.db("InternetBowser-Prod");
-    } else {
-        db = client.db(process.env.MONGODB_DB_NAME);
-    }
+    const { mainDb } = await connectToDatabases(useProdDB);
 
     const user = await currentUser()
 
     if (!user) {
-        await client.close()
         return NextResponse.json({ message: 'You must sign in to join a Convo' },
             { status: 401 })
     }
 
-    const chats = db.collection<ChatDocument>("chats");
-    const users = db.collection("users");
+    const chats = mainDb.collection<ChatDocument>("chats");
+    const users = mainDb.collection("users");
 
     const userDoc = await users.findOne({ id: user.id });
 
@@ -56,7 +41,6 @@ export async function POST(req: NextRequest) {
 
     if (chatDoc) {
         if (userChats.includes(chatName)) {
-            await client.close()
             return NextResponse.json({ message: 'You are already part of that Convo' },
                 { status: 400 })
         }
@@ -74,7 +58,6 @@ export async function POST(req: NextRequest) {
                 );
 
             } else {
-                await client.close()
                 return NextResponse.json({ message: 'Incorrect password' },
                     { status: 400 })
             }
@@ -93,12 +76,10 @@ export async function POST(req: NextRequest) {
             }
         }
     } else {
-        await client.close()
         return NextResponse.json({ message: 'There is no Convo with that name' },
             { status: 400 })
     }
 
-    await client.close()
     return (NextResponse.json({ message: 'Success' },
         { status: 200 }))
 }

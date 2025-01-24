@@ -85,6 +85,13 @@ export function ChatBox({
         }
 
         try {
+
+            const messageRequest = message
+
+            setMessage("");
+
+            scrollToBottom()
+
             await fetch(`${baseUrl}/api/sendmessage`, {
                 method: "POST",
                 headers: {
@@ -92,13 +99,10 @@ export function ChatBox({
                 },
                 body: JSON.stringify({
                     chatName: chatname,
-                    message: message,
+                    message: messageRequest,
                 }),
             });
-
-            scrollToBottom()
-
-            setMessage("");
+            
             scrollToBottom();
         } catch (e) {
             console.log(e)
@@ -135,7 +139,8 @@ export function ChatBox({
         };
 
         fetchData();
-        setInterval(updateMessages, 1000);
+        //um... please vercel
+        setInterval(updateMessages, 500);
     }, []);
 
     const GROUP_THRESHOLD_MS = 5 * 60 * 1000; //5s
