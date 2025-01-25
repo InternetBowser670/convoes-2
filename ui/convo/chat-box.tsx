@@ -20,7 +20,9 @@ if (useProdUrl) {
     baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2.internetbowser.com"
 }
 
-
+function mergeUniqueArrays<T>(arr1: T[], arr2: T[]): T[] {
+    return Array.from(new Set([...arr1, ...arr2]));
+}
 
 function formatUnixToLocalTime(unixTimestamp: number): string {
     const date = new Date(unixTimestamp);
@@ -49,6 +51,13 @@ export function ChatBox({
 
     const messagesDiv = document.getElementById('messages');
 
+    function scrollToBottom() {
+        console.log("scroll")
+        if (messagesDiv) {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    }
+
     async function updateMessages() {
         try {
             const response = await fetch(`${baseUrl}/api/chatmessages/`, {
@@ -58,26 +67,29 @@ export function ChatBox({
                 method: "POST",
                 body: JSON.stringify({
                     chatName: chatname,
-                })
+                }),
             });
             const requestData = await response.json();
-            setData(requestData);
-            if (requestData.length != data.length) {
+            console.log("Request Data:", requestData);
+    
+            const mergedData = mergeUniqueArrays(data, requestData);
+            console.log("Merged Data:", mergedData);
+    
+            setData(mergedData);
+
+            console.log(requestData.length)
+            console.log(mergedData.length)
+    
+            console.log(requestData.length !== mergedData.length)
+            if (requestData.length !== mergedData.length) {
+                console.log("scrollb")
                 scrollToBottom();
             }
         } catch (error) {
             console.error('Error fetching data:', error);
-        } finally {
-            scrollToBottom();
-        }
-    };
-
-    function scrollToBottom() {
-        if (messagesDiv) {
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
     }
-    scrollToBottom();
+    
 
     const sendMessage = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
@@ -105,7 +117,7 @@ export function ChatBox({
                     message: messageRequest,
                 }),
             });
-            
+
             scrollToBottom();
         } catch (e) {
             console.log(e)
@@ -131,9 +143,9 @@ export function ChatBox({
                 if (response.ok) {
                     setData(data);
                 } else {
-                    setData([{"_id":"678fb8423a1c3c7273d66b3d","type":"sysMessage","message":"Sorry, this Convo isn't working. If this issue persists, please contact me","userId":"user_2qLR6zXai9y0F0CHQ7RhwERiFiy","username":"InternetBowser","sentAt": 1737463817061.0}]);
+                    setData([{ "_id": "678fb8423a1c3c7273d66b3d", "type": "sysMessage", "message": "Sorry, this Convo isn't working. If this issue persists, please contact me", "userId": "user_2qLR6zXai9y0F0CHQ7RhwERiFiy", "username": "InternetBowser", "sentAt": 1737463817061.0 }]);
                 }
-                
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -142,7 +154,7 @@ export function ChatBox({
         };
 
         fetchData();
-        //um... please vercel
+        scrollToBottom();
         setInterval(updateMessages, 500);
     }, []);
 
