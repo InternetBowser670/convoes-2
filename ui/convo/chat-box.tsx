@@ -26,18 +26,6 @@ function mergeUniqueArrays<T>(arr1: T[], arr2: T[]): T[] {
     return Array.from(new Set([...arr1, ...arr2]));
 }
 
-function findUniqueValues<T>(arr1: T[], arr2: T[]) {
-    const uniqueValues = [];
-
-    for (const element of arr1) {
-        if (!arr2.includes(element)) {
-            uniqueValues.push(element);
-        }
-    }
-
-    return uniqueValues;
-}
-
 function formatUnixToLocalTime(unixTimestamp: number): string {
     const date = new Date(unixTimestamp);
     const options: Intl.DateTimeFormatOptions = {
@@ -64,10 +52,12 @@ export function ChatBox({
     const [message, setMessage] = useState("")
     const [data, setData] = useState<MessageDocument[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [scrollAfterMemo, setScrollAfterMemo] = useState(false)
 
     const messagesDiv = document.getElementById('messages');
 
     function scrollToBottom() {
+        console.log("scroll")
         if (messagesDiv) {
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
@@ -75,7 +65,7 @@ export function ChatBox({
 
     async function addMessageToData(newMessage: MessageDocument) {
         await setData((prevArray) => [...prevArray, newMessage])
-        scrollToBottom()
+        console.log("l")
     }
 
 
@@ -94,13 +84,17 @@ export function ChatBox({
 
             const formerData = data;
 
-            console.log(`unique values: ${findUniqueValues(requestData, formerData)}`)
-
             const mergedData = mergeUniqueArrays(formerData, requestData);
+
+            console.log(requestData.length)
+
+            console.log(mergedData.length)
 
             setData(mergedData);
 
             if (requestData.length !== mergedData.length) {
+                console.log("l scroll")
+                setScrollAfterMemo(true)
                 scrollToBottom();
             }
         } catch (error) {
@@ -178,9 +172,9 @@ export function ChatBox({
     const GROUP_THRESHOLD_MS = 5 * 60 * 1000; //5s
 
     const groupedData = useMemo(() => {
-        console.log("memo activated")
         // group adjacent messages by user and time
-        return data
+
+        const groupedData = data
             .sort((a, b) => a.sentAt - b.sentAt)
             .reduce((groups, msg, index) => {
                 if (index === 0 || msg.type === "sysMessage") {
@@ -200,9 +194,15 @@ export function ChatBox({
                         groups.push([msg]);
                     }
                 }
-                scrollToBottom()
                 return groups;
             }, [] as MessageDocument[][]);
+
+        if (scrollAfterMemo) {
+            scrollToBottom();
+            setScrollAfterMemo(false)
+        }
+
+        return groupedData
     }, [data]);
 
 
@@ -210,10 +210,10 @@ export function ChatBox({
         <>
             <div className="flex justify-end px-20">
                 <button
-                    onClick={updateMessages}
+                    onClick={scrollToBottom}
                     className={`border-white ml-2 hover:text-blue-700 hover:bg-white rounded-2xl text-sm border-2 px-2 p-[2]`}
                 >
-                    Update
+                    Scroll to bottom
                 </button>
             </div>
             <div
