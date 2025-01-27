@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "1.0.3": {
+    "date": "1/27/25",
+    "changes": "Made messages appear to become visible as soon as you send them",
+    "type": "convoes"
+  },
   "1.0.2": {
     "date": "1/25/25",
     "changes": "Made the chat box only scroll down when there is a new message",

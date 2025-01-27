@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
+import { v4 as uuidv4 } from "uuid";
 import { MessageDocument } from "@/app/lib/types";
 import { JetBrains_Mono } from "next/font/google";
+import { useUser } from '@clerk/nextjs'
 
 const jetbrains_400weight = JetBrains_Mono({
     weight: "400",
@@ -22,6 +24,18 @@ if (useProdUrl) {
 
 function mergeUniqueArrays<T>(arr1: T[], arr2: T[]): T[] {
     return Array.from(new Set([...arr1, ...arr2]));
+}
+
+function findUniqueValues<T>(arr1: T[], arr2: T[]) {
+    const uniqueValues = [];
+
+    for (const element of arr1) {
+        if (!arr2.includes(element)) {
+            uniqueValues.push(element);
+        }
+    }
+
+    return uniqueValues;
 }
 
 function formatUnixToLocalTime(unixTimestamp: number): string {
@@ -45,6 +59,8 @@ export function ChatBox({
     chatname: string;
 }) {
 
+    const { user } = useUser()
+
     const [message, setMessage] = useState("")
     const [data, setData] = useState<MessageDocument[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -52,11 +68,16 @@ export function ChatBox({
     const messagesDiv = document.getElementById('messages');
 
     function scrollToBottom() {
-        console.log("scroll")
         if (messagesDiv) {
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
     }
+
+    async function addMessageToData(newMessage: MessageDocument) {
+        await setData((prevArray) => [...prevArray, newMessage])
+        scrollToBottom()
+    }
+
 
     async function updateMessages() {
         try {
@@ -70,26 +91,25 @@ export function ChatBox({
                 }),
             });
             const requestData = await response.json();
-            console.log("Request Data:", requestData);
-    
-            const mergedData = mergeUniqueArrays(data, requestData);
-            console.log("Merged Data:", mergedData);
-    
+
+            const formerData = data;
+
+            console.log(`unique values: ${findUniqueValues(requestData, formerData)}`)
+
+            const mergedData = mergeUniqueArrays(formerData, requestData);
+
             setData(mergedData);
 
-            console.log(requestData.length)
-            console.log(mergedData.length)
-    
-            console.log(requestData.length !== mergedData.length)
             if (requestData.length !== mergedData.length) {
-                console.log("scrollb")
                 scrollToBottom();
             }
         } catch (error) {
             console.error('Error fetching data:', error);
+        } finally {
+            setIsLoading(false)
         }
     }
-    
+
 
     const sendMessage = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
@@ -104,6 +124,27 @@ export function ChatBox({
             const messageRequest = message
 
             setMessage("");
+
+            scrollToBottom()
+
+            if (!user) {
+                return <p className={`${jetbrains_400weight.className}`}>Not signed in</p>
+            }
+
+
+            const newMessageData = {
+                _id: uuidv4(),
+                type: "textMessage",
+                message: messageRequest,
+                sentAt: Date.now(),
+                userId: user.id,
+                username: user.username || "",
+                image_url: user.imageUrl
+            }
+
+            addMessageToData(newMessageData)
+
+            console.log("added data: " + newMessageData)
 
             scrollToBottom()
 
@@ -127,40 +168,17 @@ export function ChatBox({
 
 
     useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetch(`${baseUrl}/api/chatmessages/`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    method: "POST",
-                    body: JSON.stringify({
-                        chatName: chatname,
-                    })
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    setData(data);
-                } else {
-                    setData([{ "_id": "678fb8423a1c3c7273d66b3d", "type": "sysMessage", "message": "Sorry, this Convo isn't working. If this issue persists, please contact me", "userId": "user_2qLR6zXai9y0F0CHQ7RhwERiFiy", "username": "InternetBowser", "sentAt": 1737463817061.0 }]);
-                }
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchData();
+        updateMessages()
         scrollToBottom();
         setInterval(updateMessages, 500);
+        scrollToBottom();
+        scrollToBottom();
     }, []);
 
     const GROUP_THRESHOLD_MS = 5 * 60 * 1000; //5s
 
     const groupedData = useMemo(() => {
+        console.log("memo activated")
         // group adjacent messages by user and time
         return data
             .sort((a, b) => a.sentAt - b.sentAt)
@@ -182,6 +200,7 @@ export function ChatBox({
                         groups.push([msg]);
                     }
                 }
+                scrollToBottom()
                 return groups;
             }, [] as MessageDocument[][]);
     }, [data]);

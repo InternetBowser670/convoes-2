@@ -32,6 +32,7 @@
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "svix": "^1.44.0",
+    "uuid": "^11.0.5",
     "ws": "^8.18.0"
   },
   "devDependencies": {
