@@ -22,9 +22,13 @@ if (useProdUrl) {
     baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://convoes-2.internetbowser.com"
 }
 
-function mergeUniqueArrays<T>(arr1: T[], arr2: T[]): T[] {
-    return Array.from(new Set([...arr1, ...arr2]));
+function mergeUniqueArrays<T>(array1: T[], array2: T[]): T[] {
+    return [...array1, ...array2].filter(
+        (item, index, self) =>
+            index === self.findIndex((t) => JSON.stringify(t) === JSON.stringify(item))
+    );
 }
+
 
 function formatUnixToLocalTime(unixTimestamp: number): string {
     const date = new Date(unixTimestamp);
@@ -54,18 +58,19 @@ export function ChatBox({
     const [isLoading, setIsLoading] = useState(true);
     const [scrollAfterMemo, setScrollAfterMemo] = useState(false)
 
+    let dataRef: MessageDocument[] = []
+
     const messagesDiv = document.getElementById('messages');
 
     function scrollToBottom() {
-        console.log("scroll")
         if (messagesDiv) {
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
     }
 
     async function addMessageToData(newMessage: MessageDocument) {
+        dataRef = [...data, newMessage];
         await setData((prevArray) => [...prevArray, newMessage])
-        console.log("l")
     }
 
 
@@ -82,18 +87,22 @@ export function ChatBox({
             });
             const requestData = await response.json();
 
-            const formerData = data;
+            const formerData = dataRef
 
             const mergedData = mergeUniqueArrays(formerData, requestData);
 
+            
+
+            console.log(dataRef.length)
             console.log(requestData.length)
 
-            console.log(mergedData.length)
+            console.log("b " + mergeUniqueArrays(dataRef, requestData).length)
 
-            setData(mergedData);
+            dataRef = mergeUniqueArrays(formerData, requestData)
+
+            setData(dataRef);
 
             if (requestData.length !== mergedData.length) {
-                console.log("l scroll")
                 setScrollAfterMemo(true)
                 scrollToBottom();
             }
@@ -109,7 +118,6 @@ export function ChatBox({
         event.preventDefault();
 
         if (!message) {
-            alert("Please enter a message");
             return;
         }
 
@@ -130,15 +138,17 @@ export function ChatBox({
                 _id: uuidv4(),
                 type: "textMessage",
                 message: messageRequest,
-                sentAt: Date.now(),
+                sentAt: await Date.now(),
                 userId: user.id,
                 username: user.username || "",
                 image_url: user.imageUrl
             }
 
+            console.log(newMessageData)
+
             addMessageToData(newMessageData)
 
-            console.log("added data: " + newMessageData)
+            dataRef = [...data, newMessageData];
 
             scrollToBottom()
 
@@ -150,12 +160,13 @@ export function ChatBox({
                 body: JSON.stringify({
                     chatName: chatname,
                     message: messageRequest,
+                    sentAt: await Date.now(),
                 }),
             });
 
             scrollToBottom();
         } catch (e) {
-            console.log(e)
+            console.error(e)
             alert("Message failed to sync");
         }
     };

@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
 
     const user = await currentUser()
 
-    const currentTime = Date.now()
 
     if (!user) {
         return NextResponse.json({ message: 'You must sign in to send a message' },
@@ -17,6 +16,7 @@ export async function POST(req: NextRequest) {
 
     const body = await new Response(req.body).json()
 
+    const currentTime = body.sentAt;
     const chatname = body.chatName;
     const message = body.message;
 
@@ -36,6 +36,7 @@ export async function POST(req: NextRequest) {
             { status: 400 })
     } else {
         await users.updateOne({id: user.id}, {$inc: { messagesSent: 1 }})
+        console.log("inserted doc")
     }
 
     await chatCollection.insertOne({type: "textMessage", message: message, userId: user.id, imageUrl: user.imageUrl, username: user.username, sentAt: currentTime})

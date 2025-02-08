@@ -2,6 +2,11 @@ import ChangelogEl from './changelog-element';
 import HomepageChangelogEl from './homepage-changelog-element'
 
 const versions = {
+  "1.0.5": {
+    "date": "2/7/25",
+    "changes": "Made messages be displayed in the order that they were sent, rather than the order that they were recieved at.",
+    "type": "convoes"
+  },
   "1.0.4": {
     "date": "1/27/25",
     "changes": "Fixed a problem with the chat box not scrolling down properly",
