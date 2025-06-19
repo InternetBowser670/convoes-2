@@ -14,7 +14,7 @@
     "@2toad/profanity": "^3.1.1",
     "@clerk/clerk-sdk-node": "^5.1.4",
     "@clerk/elements": "^0.22.4",
-    "@clerk/nextjs": "^6.9.6",
+    "@clerk/nextjs": "^6.22.0",
     "@clerk/themes": "^2.2.3",
     "@heroicons/react": "^2.2.0",
     "@next/codemod": "^15.2.0-canary.19",
@@ -32,6 +32,7 @@
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "svix": "^1.44.0",
+    "swr": "^2.3.2",
     "uuid": "^11.0.5",
     "ws": "^8.18.0"
   },

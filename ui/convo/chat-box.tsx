@@ -30,6 +30,8 @@ function mergeUniqueArrays<T>(array1: T[], array2: T[]): T[] {
 }
 
 
+
+
 function formatUnixToLocalTime(unixTimestamp: number): string {
     const date = new Date(unixTimestamp);
     const options: Intl.DateTimeFormatOptions = {
@@ -52,13 +54,18 @@ export function ChatBox({
 }) {
 
     const { user } = useUser()
-
     const [message, setMessage] = useState("")
     const [data, setData] = useState<MessageDocument[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [scrollAfterMemo, setScrollAfterMemo] = useState(false)
+    const [extraDataRef, setExtraDataRef] = useState<MessageDocument[]>([]);
 
     let dataRef: MessageDocument[] = []
+    
+
+    function addMessageToExtraMessages(msg: MessageDocument) {
+        setExtraDataRef([...extraDataRef, msg])
+    }
 
     const messagesDiv = document.getElementById('messages');
 
@@ -66,11 +73,6 @@ export function ChatBox({
         if (messagesDiv) {
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
-    }
-
-    async function addMessageToData(newMessage: MessageDocument) {
-        dataRef = [...data, newMessage];
-        await setData((prevArray) => [...prevArray, newMessage])
     }
 
 
@@ -91,16 +93,13 @@ export function ChatBox({
 
             const mergedData = mergeUniqueArrays(formerData, requestData);
 
-            
-
-            console.log(dataRef.length)
-            console.log(requestData.length)
-
-            console.log("b " + mergeUniqueArrays(dataRef, requestData).length)
+            console.log(mergedData.length)
 
             dataRef = mergeUniqueArrays(formerData, requestData)
 
-            setData(dataRef);
+            console.log("edr" + extraDataRef.length)
+
+            setData([...requestData, ...extraDataRef]);
 
             if (requestData.length !== mergedData.length) {
                 setScrollAfterMemo(true)
@@ -146,9 +145,11 @@ export function ChatBox({
 
             console.log(newMessageData)
 
-            addMessageToData(newMessageData)
+            addMessageToExtraMessages(newMessageData)
 
-            dataRef = [...data, newMessageData];
+            console.log("sedr" + extraDataRef.length)
+
+            setData([...data, ...extraDataRef]);
 
             scrollToBottom()
 
@@ -316,6 +317,7 @@ export function ChatBox({
                         className="rounded-xl p-1 border-2 ml-2 focus:outline-none w-[5%]"
                         type="submit"
                         id="submit"
+                        content='Send'
                     />
                 </form>
             </div>
